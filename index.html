@@ -126,6 +126,7 @@ Follow their story—from strangers to best friends, from healers to lovers, onl
     <div class="purchase-section">
       <img src="cover.png" alt="Destiny Book Cover" />
       <button onclick="payWithRazorpay()">BUY NOW</button>
+      <button onclick="window.location.href='read.html'">READ ONLINE (With Ads)</button>
       <button onclick="window.open('sample.pdf', '_blank')">READ SAMPLE</button>
     </div>
   </div>
@@ -134,7 +135,7 @@ Follow their story—from strangers to best friends, from healers to lovers, onl
     function downloadPDF(filePath) {
       const link = document.createElement('a');
       link.href = filePath;
-      link.download = "Destiny by Abhishek Prakash.pdf";
+      link.download = "DESTINY.pdf";
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
