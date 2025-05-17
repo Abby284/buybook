@@ -4,13 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Destiny by Abhishek Prakash</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Roboto&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
-      background: #000;
-      color: #fff;
-      font-family: 'Arial', sans-serif;
-      padding: 20px;
+      background: linear-gradient(to bottom right, #0f0f0f, #1a1a1a);
+      color: #ffffff;
+      font-family: 'Roboto', sans-serif;
+      padding: 40px 20px;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -19,33 +20,38 @@
     .container {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 40px;
+      gap: 60px;
       align-items: center;
-      max-width: 1200px;
+      max-width: 1300px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
     }
     .book-info {
       max-width: 600px;
     }
     .book-info h1 {
-      font-size: 3rem;
-      color: #ff0000;
+      font-family: 'Playfair Display', serif;
+      font-size: 4rem;
+      color: #ff3333;
       margin-bottom: 10px;
     }
     .book-info h2 {
+      font-size: 1.7rem;
+      color: #ff6666;
       font-weight: normal;
-      font-size: 1.5rem;
-      color: #ff4444;
     }
     .tagline {
       font-style: italic;
-      font-size: 1.1rem;
-      color: #ff5555;
-      margin: 15px 0;
+      font-size: 1.2rem;
+      color: #ffaa88;
+      margin: 20px 0;
     }
     .book-info p {
-      font-size: 1.2rem;
-      line-height: 1.6;
-      color: #ccc;
+      font-size: 1.1rem;
+      line-height: 1.8;
+      color: #ddd;
     }
     .purchase-section {
       display: flex;
@@ -53,26 +59,27 @@
       align-items: center;
     }
     .purchase-section img {
-      max-width: 300px;
-      border: 3px solid #ff0000;
-      border-radius: 10px;
-      margin-bottom: 20px;
-      box-shadow: 0 0 10px #ff0000aa;
+      max-width: 340px;
+      border: 3px solid #ff3333;
+      border-radius: 15px;
+      margin-bottom: 25px;
+      box-shadow: 0 0 20px rgba(255, 51, 51, 0.5);
     }
     #custom-buy-now {
-      background: #ff0000;
+      background: linear-gradient(135deg, #ff0000, #cc0000);
       color: white;
-      font-size: 1.4rem;
-      padding: 15px 40px;
+      font-size: 1.5rem;
+      padding: 16px 45px;
       border: none;
-      border-radius: 8px;
+      border-radius: 10px;
       cursor: pointer;
-      box-shadow: 0 0 10px #ff0000aa;
-      transition: background-color 0.3s;
-      margin-bottom: 10px;
+      box-shadow: 0 0 15px rgba(255, 0, 0, 0.6);
+      transition: all 0.3s ease;
+      margin-bottom: 15px;
     }
     #custom-buy-now:hover {
-      background: #cc0000;
+      background: #b30000;
+      transform: scale(1.05);
     }
     #paypal-button-container {
       display: none;
@@ -80,19 +87,17 @@
     }
     .success-message {
       display: none;
-      background: #005500;
+      background: #116611;
       color: white;
       padding: 15px;
-      border-radius: 8px;
+      border-radius: 10px;
       margin-top: 15px;
       text-align: center;
     }
     @media (max-width: 768px) {
       .container {
         grid-template-columns: 1fr;
-        gap: 20px;
-      }
-      .book-info {
+        gap: 30px;
         text-align: center;
       }
     }
@@ -105,11 +110,10 @@
       <h2>by Abhishek Prakash</h2>
       <p class="tagline">"We meet for a reason."</p>
       <p>
-        <strong>Destiny</strong> is a raw and emotionally gripping romcom novel (and a little filmy story for Jab We Met and Before trilogy fans) of two strangers who meet each other on a random night in Delhi. Both of their souls were broken, not knowing the unexpected, unplanned (kidnapped) journey with each other will make them whole again.
-        Follow the story of Arjun and Neha — from strangers to best friends, from healers to lovers, only to end up as strangers again or maybe together forever in their heads as they always thought to end.
+        <strong>Destiny</strong> is an emotionally gripping romantic dramedy — a raw, filmy ride for fans of *Jab We Met* and the *Before* trilogy. It follows two strangers, Arjun and Neha, whose broken souls collide one unpredictable night in Delhi. What begins as a spontaneous (and slightly illegal) road trip soon turns into a journey of healing, laughter, heartbreak, and everything in between.
       </p>
       <p>
-        Heartfelt storytelling, and a blend of hope and heartbreak, this novel explores trauma, self-healing, and the mystery of what's real and what's not — and how not every delulu is solulu.
+        With heartfelt storytelling and a dose of chaos, *Destiny* explores trauma, self-discovery, attachment, and the blurry line between delusion and reality. Not every story ends in love — but some remain unforgettable.
       </p>
     </div>
 
@@ -126,10 +130,8 @@
   <!-- PayPal JS SDK -->
   <script src="https://www.paypal.com/sdk/js?client-id=AXrLdhxwJe0z12dpydWJ5sbNXfJE9lCSGDZuM_bsjZ5x2AHw5r9b9GTFpIyfkrDT0xURAOyYFv50Xsz1&currency=INR"></script>
   <script>
-    // PDF file path - replace with your actual PDF file path
-    const pdfFilePath = "C:\Users\KIIT0001\Desktop\book\DESTINY.pdf";
-    
-    // Function to trigger download
+    const pdfFilePath = "DESTINY.pdf"; // Adjust for actual hosted path
+
     function downloadPDF(filePath) {
       const link = document.createElement('a');
       link.href = filePath;
@@ -139,29 +141,21 @@
       document.body.removeChild(link);
     }
 
-    // Function to show success message and trigger download
     function handleSuccessfulPayment() {
       const successMessage = document.getElementById('success-message');
       successMessage.style.display = 'block';
-      
-      // Hide PayPal buttons
       document.getElementById('paypal-button-container').style.display = 'none';
-      
-      // Disable Buy Now button
       document.getElementById('custom-buy-now').disabled = true;
-      document.getElementById('custom-buy-now').style.opacity = '0.5';
-      
-      // Trigger download after a short delay
+      document.getElementById('custom-buy-now').style.opacity = '0.6';
       setTimeout(() => {
         downloadPDF(pdfFilePath);
       }, 2000);
     }
 
-    // Initialize PayPal buttons
     let paypalButtons = paypal.Buttons({
       style: {
         color: 'black',
-        shape: 'rect',
+        shape: 'pill',
         label: 'pay'
       },
       createOrder: function(data, actions) {
@@ -180,7 +174,6 @@
       }
     });
 
-    // Show PayPal buttons when Buy Now is clicked
     document.getElementById('custom-buy-now').addEventListener('click', function() {
       const container = document.getElementById('paypal-button-container');
       if (container.style.display === 'none' || !container.style.display) {
@@ -189,7 +182,9 @@
       }
     });
   </script>
-   <footer class="container mx-auto px-4 py-6 text-center text-gray-200 mt-12"> <p>© 2025 Destiny. All rights reserved.</p>
-    </footer>
+
+  <footer style="text-align:center; padding: 20px; color: #aaa; font-size: 0.9rem;">
+    © 2025 Destiny. All rights reserved.
+  </footer>
 </body>
 </html>
