@@ -3,76 +3,95 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Read Destiny Online | With Ads</title>
+  <title>Read Destiny Online | Flipbook</title>
+  <script src="https://unpkg.com/epubjs/dist/epub.min.js"></script>
   <style>
     body {
-      font-family: 'Roboto', sans-serif;
-      background-color: #0f0f0f;
-      color: #ffffff;
-      line-height: 1.8;
-      padding: 30px;
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #121212;
+      color: #fff;
+      overflow: hidden;
     }
-    h1 {
-      text-align: center;
-      color: #ff3333;
+    #viewer {
+      height: 100vh;
+      width: 100vw;
     }
-    .chapter {
-      max-width: 800px;
-      margin: 0 auto 50px auto;
+    .ad-slot {
+      display: none;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #1e1e1e;
+      border: 2px dashed #ff4444;
+      color: #ddd;
       padding: 20px;
-      background-color: #1a1a1a;
-      border-radius: 10px;
-    }
-    .ad-placeholder {
-      background-color: #333;
-      color: #aaa;
+      border-radius: 12px;
+      z-index: 10;
       text-align: center;
-      padding: 20px;
-      margin: 40px auto;
-      border: 2px dashed #ff0000;
-      border-radius: 10px;
     }
-    a.back-button {
-      display: inline-block;
-      margin: 40px auto 0;
-      text-align: center;
+    .ad-slot iframe {
+      width: 300px;
+      height: 250px;
+    }
+    .close-ad {
+      margin-top: 10px;
       background: #ff0000;
       color: white;
-      padding: 12px 25px;
-      border-radius: 8px;
-      text-decoration: none;
+      border: none;
+      padding: 8px 16px;
+      cursor: pointer;
+      border-radius: 6px;
     }
-    a.back-button:hover {
-      background-color: #cc0000;
+    .close-ad:hover {
+      background: #cc0000;
     }
   </style>
 </head>
 <body>
-  <h1>Destiny - Read Online</h1>
-
-  <div class="chapter">
-    <h2>Chapter 1: Smoke and Silence</h2>
-    <p>It all started on a night when Delhi felt quieter than usual. Arjun, carrying more thoughts than luggage, stepped out of the metro station unaware his life was about to twist in the most filmy way imaginable...</p>
+  <div id="viewer"></div>
+  <div class="ad-slot" id="adPopup">
+    <p>— Sponsored —</p>
+    <!-- Replace below with your Google AdSense code -->
+    <iframe src="https://via.placeholder.com/300x250?text=Ad+Here"></iframe>
+    <br>
+    <button class="close-ad" onclick="closeAd()">Continue Reading</button>
   </div>
 
-  <div class="ad-placeholder">
-    [Your Google AdSense Code Will Appear Here — Insert Ad Unit]
-  </div>
+  <script>
+    const book = ePub("https://yourusername.github.io/your-repo/DESTINY.epub"); // Replace with your hosted EPUB link
+    const rendition = book.renderTo("viewer", {
+      width: "100%",
+      height: "100%",
+      spread: "always",
+      flow: "paginated"
+    });
 
-  <div class="chapter">
-    <h2>Chapter 2: Drive</h2>
-    <p>“Where do you want to go?” Neha asked, voice full of mock sarcasm. “Away,” Arjun replied. Neither of them knew that ‘away’ meant toward healing, madness, and maybe love.</p>
-  </div>
+    let chapterCount = 0;
+    let adShownAt = [];
 
-  <div class="ad-placeholder">
-    [Ad Block #2 — Insert Another Ad Unit Here]
-  </div>
+    rendition.display();
 
-  <div class="chapter">
-    <h2>Chapter 3: Chai</h2>
-    <p>The steam from the roadside kulhad chai blurred their faces for a moment. Long enough to forget their pasts, short enough to remind them they were strangers with stories yet untold...</p>
-  </div>
+    book.loaded.navigation.then(function(toc) {
+      rendition.on("relocated", (location) => {
+        chapterCount++;
+        if (chapterCount % 2 === 0 && !adShownAt.includes(chapterCount)) {
+          showAd();
+          adShownAt.push(chapterCount);
+        }
+      });
+    });
 
-  <a href="index.html" class="back-button">← Back to Home</a>
+    function showAd() {
+      document.getElementById("adPopup").style.display = "block";
+      rendition.pause();
+    }
+
+    function closeAd() {
+      document.getElementById("adPopup").style.display = "none";
+      rendition.resume();
+    }
+  </script>
 </body>
 </html>
