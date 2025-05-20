@@ -1,23 +1,50 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Read DESTINY Online</title>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Read DESTINY Online</title>
   <style>
-    body, html {
+    body {
       margin: 0;
-      padding: 0;
-      height: 100%;
       background: #111;
+      color: #fff;
+      font-family: 'Georgia', serif;
+    }
+    header {
+      text-align: center;
+      padding: 20px;
+      color: #f55;
     }
     iframe {
+      display: block;
+      margin: 0 auto;
       width: 100%;
-      height: 100%;
+      height: 95vh;
       border: none;
+    }
+    .back {
+      text-align: center;
+      margin: 10px;
+    }
+    .back a {
+      color: #f88;
+      text-decoration: none;
+    }
+    .back a:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
 <body>
-  <iframe src="pdfjs/web/viewer.html?file=../../DESTINY.pdf#toolbar=1"></iframe>
+  <header>
+    <h1>Read DESTINY</h1>
+  </header>
+
+  <iframe src="DESTINY.pdf"></iframe>
+
+  <div class="back">
+    <a href="index.html">← Back to Homepage</a>
+  </div>
 </body>
 </html>
