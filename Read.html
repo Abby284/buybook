@@ -1,400 +1,189 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>My Ebook Reader</title>
-<style>
-  /* Root font size variable for JS font size control */
-  :root {
-    --font-size: 16px;
-    --bg-color: #f4e9dc; /* Paperbag beige */
-    --text-color: #3a2f23;
-    --link-color: #6b4f2a;
-    --link-hover: #a77b4f;
-    --ad-bg: #f0d9b5;
-    --transition-speed: 0.3s;
-  }
-  
-  /* Dark mode overrides */
-  body.dark-mode {
-    --bg-color: #1e1e1e;
-    --text-color: #e1d9c0;
-    --link-color: #b18e58;
-    --link-hover: #d4b06f;
-    --ad-bg: #3a3a3a;
-  }
-
-  body {
-    margin: 0;
-    font-family: "Times New Roman", serif;
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    font-size: var(--font-size);
-    transition: background-color var(--transition-speed), color var(--transition-speed);
-  }
-
-  /* === Loading Screen Styles === */
-  #loadingScreen {
-    position: fixed;
-    inset: 0;
-    background: var(--bg-color);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 2000;
-    padding: 1rem;
-  }
-
-  #loadingCard {
-    background: white;
-    max-width: 400px;
-    width: 100%;
-    padding: 2rem 2.5rem;
-    border-radius: 14px;
-    box-shadow:
-      0 8px 20px rgba(107,79,42,0.2),
-      0 4px 10px rgba(107,79,42,0.15);
-    border: 2px solid var(--link-color);
-    text-align: center;
-    color: var(--link-color);
-  }
-
-  #loadingCard h1 {
-    margin: 0 0 1.5rem 0;
-    font-size: 2.4rem;
-    font-weight: 700;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-  }
-
-  #loadingCard p {
-    margin-bottom: 2rem;
-    font-size: 1.1rem;
-    color: var(--text-color);
-  }
-
-  .loadingBtn {
-    cursor: pointer;
-    background-color: var(--link-color);
-    color: white;
-    border: none;
-    padding: 0.8rem 2.5rem;
-    margin: 0 0.5rem;
-    font-size: 1.1rem;
-    border-radius: 8px;
-    box-shadow: 0 6px 14px rgba(107,79,42,0.4);
-    transition:
-      background-color 0.3s ease,
-      box-shadow 0.3s ease,
-      transform 0.2s ease;
-    user-select: none;
-  }
-  .loadingBtn:hover {
-    background-color: var(--link-hover);
-    box-shadow: 0 10px 24px rgba(107,79,42,0.55);
-    transform: translateY(-2px);
-  }
-  .loadingBtn:active {
-    transform: translateY(0);
-    box-shadow: 0 6px 14px rgba(107,79,42,0.4);
-  }
-
-  /* === Existing header and layout styles === */
-
-  header {
-    background: var(--link-color);
-    color: white;
-    padding: 1rem;
-    font-weight: bold;
-    font-size: 1.25rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    user-select: none;
-  }
-
-  /* Layout wrapper */
-  #mainContainer {
-    display: flex;
-    height: calc(100vh - 60px);
-    overflow: hidden;
-  }
-
-  /* Table of Contents (Sidebar) */
-  #tableOfContents {
-    background: var(--link-color);
-    color: white;
-    width: 260px;
-    overflow-y: auto;
-    padding: 1rem 0;
-    transition: transform var(--transition-speed);
-  }
-
-  /* For mobile, hide TOC by default */
-  #tableOfContents:not(.active) {
-    transform: translateX(-260px);
-    position: fixed;
-    top: 60px;
-    left: 0;
-    bottom: 0;
-    z-index: 1000;
-    box-shadow: 2px 0 8px rgba(0,0,0,0.3);
-  }
-
-  #tocList {
-    list-style: none;
-    padding-left: 0;
-    margin: 0;
-  }
-  
-  #tocList li {
-    margin: 0.25rem 0;
-  }
-
-  #tocList a {
-    color: white;
-    text-decoration: none;
-    display: block;
-    padding: 0.5rem 1rem;
-    border-left: 4px solid transparent;
-    transition: background-color 0.2s, border-color 0.3s;
-    cursor: pointer;
-  }
-
-  #tocList a:hover {
-    background-color: var(--link-hover);
-  }
-
-  #tocList a.active {
-    border-left-color: #ffe599;
-    background-color: #a77b4f;
-    font-weight: bold;
-  }
-
-  /* Content Area */
-  #contentArea {
-    flex: 1;
-    padding: 1.5rem 2rem;
-    overflow-y: auto;
-    background: var(--bg-color);
-    transition: background-color var(--transition-speed);
-  }
-
-  #chapterTitle {
-    font-size: 2rem;
-    margin-bottom: 0.5rem;
-    border-bottom: 2px solid var(--link-color);
-    padding-bottom: 0.3rem;
-  }
-
-  #chapterIndicator {
-    font-style: italic;
-    margin-bottom: 1rem;
-    color: var(--link-hover);
-  }
-
-  #chapterContent p {
-    line-height: 1.6;
-    margin-bottom: 1rem;
-    text-align: justify;
-  }
-
-  /* Navigation Buttons */
-  .navButtons {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    margin: 1.5rem 0;
-  }
-
-  button {
-    cursor: pointer;
-    background-color: var(--link-color);
-    border: none;
-    color: white;
-    padding: 0.5rem 1.2rem;
-    font-size: 1rem;
-    border-radius: 4px;
-    transition: background-color 0.3s ease;
-  }
-
-  button:disabled {
-    background-color: #888;
-    cursor: not-allowed;
-  }
-
-  button:hover:not(:disabled) {
-    background-color: var(--link-hover);
-  }
-
-  /* Top controls (dark mode, font size, toggle TOC) */
-  #controls {
-    display: flex;
-    gap: 0.75rem;
-  }
-
-  #controls button {
-    padding: 0.4rem 0.8rem;
-    font-size: 0.9rem;
-  }
-
-  /* TOC Toggle Button for mobile */
-  #toggleTOC {
-    display: none;
-    background: var(--link-color);
-  }
-
-  /* Ad container */
-  #adContainer {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: var(--ad-bg);
-    color: var(--text-color);
-    padding: 1rem 1.5rem;
-    box-shadow: 0 0 15px rgba(0,0,0,0.25);
-    border-radius: 8px;
-    max-width: 300px;
-    z-index: 1500;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    transition: opacity 0.3s ease;
-  }
-
-  #adContainer.hidden {
-    display: none;
-  }
-
-  #closeAd {
-    background: transparent;
-    border: none;
-    font-size: 1.2rem;
-    font-weight: bold;
-    cursor: pointer;
-    color: var(--link-color);
-  }
-
-  /* Responsive design */
-  @media (max-width: 768px) {
-    #mainContainer {
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Read Destiny Online | EPUB Reader</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #121212;
+      color: #fff;
+      margin: 0;
+      padding: 20px;
+      display: flex;
       flex-direction: column;
-      height: auto;
+      align-items: center;
+      min-height: 100vh;
     }
-    #tableOfContents {
-      width: 260px;
-      position: fixed;
-      height: calc(100vh - 60px);
-      top: 60px;
-      left: 0;
-      z-index: 1000;
-      background: var(--link-color);
-      transform: translateX(-260px);
-      transition: transform var(--transition-speed);
-      box-shadow: 2px 0 8px rgba(0,0,0,0.3);
+    h1 {
+      color: #ff4444;
+      margin-bottom: 15px;
     }
-
-    #tableOfContents.active {
-      transform: translateX(0);
+    #viewer {
+      width: 90vw;
+      height: 75vh;
+      border: 1px solid #ff4444;
+      background: #1e1e1e;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
+      overflow: hidden;
+      position: relative;
     }
-
-    #toggleTOC {
-      display: inline-block;
-      margin-right: auto;
+    #book-content {
+      width: 100%;
+      height: 100%;
+      overflow-y: auto;
+      padding: 20px;
+      box-sizing: border-box;
+      font-family: 'Times New Roman', serif;
+      font-size: 18px;
+      line-height: 1.6;
+      color: #eee;
+      background: #1e1e1e;
     }
-
-    #contentArea {
-      padding: 1rem 1.5rem;
+    #nav-controls {
+      margin-top: 15px;
+      text-align: center;
     }
-  }
-</style>
+    #nav-controls button {
+      background: #ff4444;
+      border: none;
+      color: white;
+      padding: 10px 20px;
+      margin: 0 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+    }
+    #nav-controls button:hover {
+      background: #ff6666;
+    }
+    #toc {
+      margin: 20px auto;
+      max-width: 800px;
+      background: #1e1e1e;
+      border-radius: 8px;
+      padding: 15px;
+      box-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
+      color: #ff6666;
+      max-height: 200px;
+      overflow-y: auto;
+      width: 90vw;
+    }
+    #toc ul {
+      list-style: none;
+      padding-left: 0;
+      margin: 0;
+    }
+    #toc li {
+      margin: 5px 0;
+      cursor: pointer;
+    }
+    #toc li:hover {
+      text-decoration: underline;
+      color: #ff8888;
+    }
+    .error {
+      color: #ff6666;
+      padding: 20px;
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
+  <h1>Destiny — Read Online</h1>
 
-<!-- Loading Screen -->
-<div id="loadingScreen">
-  <div id="loadingCard" role="dialog" aria-modal="true" aria-labelledby="loadingTitle" aria-describedby="loadingDesc">
-    <h1 id="loadingTitle">Welcome to Your Ebook Reader</h1>
-    <p id="loadingDesc">Start reading your book or continue where you left off.</p>
-    <div>
-      <button class="loadingBtn" id="startReadingBtn" aria-label="Start Reading">Start Reading</button>
-      <button class="loadingBtn" id="continueReadingBtn" aria-label="Continue Reading">Continue Reading</button>
+  <!-- EPUB Viewer -->
+  <div id="viewer">
+    <div id="book-content" tabindex="0">
+      Loading book...
     </div>
   </div>
-</div>
 
-<!-- Main reader UI -->
-<div id="readerUI" style="display:none;">
-<header>
-  <div id="controls">
-    <button id="toggleTOC" aria-label="Toggle Table of Contents">&#9776; TOC</button>
-    <button id="prevChapter" aria-label="Previous Chapter">&larr; Prev</button>
-    <button id="nextChapter" aria-label="Next Chapter">Next &rarr;</button>
+  <!-- Navigation buttons -->
+  <div id="nav-controls" aria-label="Navigation Controls">
+    <button id="prev">← Previous</button>
+    <button id="next">Next →</button>
   </div>
-  <div>
-    <button id="lightMode" aria-label="Light Mode">☀️</button>
-    <button id="darkMode" aria-label="Dark Mode">🌙</button>
-    <button id="increaseFont" aria-label="Increase Font Size">A+</button>
-    <button id="decreaseFont" aria-label="Decrease Font Size">A−</button>
-  </div>
-</header>
 
-<div id="mainContainer">
-  <nav id="tableOfContents" aria-label="Table of Contents">
-    <ul id="tocList"></ul>
+  <!-- Table of Contents from EPUB -->
+  <nav id="toc" aria-label="Table of Contents">
+    <strong>Table of Contents</strong>
+    <ul id="toc-list">
+      <li>Loading TOC...</li>
+    </ul>
   </nav>
 
-  <main id="contentArea">
-    <h1 id="chapterTitle">Loading...</h1>
-    <div id="chapterIndicator"></div>
-    <article id="chapterContent">
-      <!-- Chapter paragraphs inserted here -->
-    </article>
-  </main>
-</div>
+  <!-- epub.js -->
+  <script src="https://cdn.jsdelivr.net/npm/epubjs@0.3.88/build/epub.min.js"></script>
+  <script>
+    const CONTENT = document.getElementById("book-content");
+    const TOC_LIST = document.getElementById("toc-list");
 
-<!-- Advertisement container -->
-<div id="adContainer" class="hidden" role="complementary" aria-label="Advertisement">
-  <div>Ad: Buy the best reading lamps here!</div>
-  <button id="closeAd" aria-label="Close Advertisement">&times;</button>
-</div>
-</div>
+    // Initialize and load
+    const book = ePub("DESTINY.epub");
+    book.ready
+      .then(() => {
+        // Render into the viewer
+        const rendition = book.renderTo("book-content", {
+          width: "100%",
+          height: "100%",
+          flow: "paginated",
+          stylesheet: `
+            body {
+              font-family: 'Times New Roman', serif !important;
+              font-size: 18px !important;
+              color: #eee !important;
+              background: #1e1e1e !important;
+              margin: 1em !important;
+            }
+          `,
+        });
 
-<script>
-  // Simple example: on clicking a button, hide loading, show reader
-  const loadingScreen = document.getElementById('loadingScreen');
-  const readerUI = document.getElementById('readerUI');
-  const startBtn = document.getElementById('startReadingBtn');
-  const continueBtn = document.getElementById('continueReadingBtn');
-const book = ePub("DESTINY.epub");
+        // Display first section
+        rendition.display();
 
-book.ready.then(() => {
-  const rendition = book.renderTo("book-content", { width: "100%", height: "100%" });
-  rendition.display();
+        // Populate TOC
+        book.loaded.navigation.then(toc => {
+          TOC_LIST.innerHTML = "";
+          toc.forEach(item => {
+            const li = document.createElement("li");
+            li.textContent = item.label;
+            li.tabIndex = 0;
+            li.setAttribute("role", "link");
+            li.onclick = () => rendition.display(item.href);
+            li.onkeydown = e => {
+              if (e.key === "Enter" || e.key === " ") {
+                rendition.display(item.href);
+                e.preventDefault();
+              }
+            };
+            TOC_LIST.appendChild(li);
+          });
+        });
 
-  book.loaded.navigation.then(toc => {
-    // build TOC ...
-  });
+        // Next / Previous
+        document.getElementById("prev").onclick = () => rendition.prev();
+        document.getElementById("next").onclick = () => rendition.next();
 
-  // add nav controls, etc.
-}).catch(err => {
-  document.getElementById("book-content").innerHTML = "Error loading book: " + err.message;
-  console.error(err);
-});
-
-  startBtn.onclick = () => {
-    loadingScreen.style.display = 'none';
-    readerUI.style.display = 'block';
-    // Add your logic for starting from chapter 1
-  };
-
-  continueBtn.onclick = () => {
-    loadingScreen.style.display = 'none';
-    readerUI.style.display = 'block';
-    // Add your logic to continue from saved chapter/position
-  };
-</script>
-
+        // Keyboard
+        document.addEventListener("keydown", e => {
+          if (
+            e.target === document.body ||
+            e.target === CONTENT
+          ) {
+            if (e.key === "ArrowLeft") rendition.prev();
+            if (e.key === "ArrowRight") rendition.next();
+          }
+        });
+      })
+      .catch(err => {
+        CONTENT.innerHTML = `<div class="error">Error loading book: ${err.message}</div>`;
+        console.error(err);
+      });
+  </script>
 </body>
 </html>
