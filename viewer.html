@@ -290,7 +290,7 @@
       pageNum = parseInt(localStorage.getItem('pdf-last-page')) || 1,
       pageIsRendering = false,
       pageNumIsPending = null,
-      scale = 1.5;
+      scale = 1.75;
 
     const canvas = document.getElementById('pdf-render');
     const ctx = canvas.getContext('2d');
@@ -387,7 +387,7 @@
     function generateThumbnails() {
       for(let i = 1; i <= pdfDoc.numPages; i++) {
         pdfDoc.getPage(i).then(page => {
-          const viewport = page.getViewport({ scale: 0.2 });
+          const viewport = page.getViewport({ scale: 0.3 });
           const canvasThumb = document.createElement('canvas');
           canvasThumb.classList.add('thumb');
           canvasThumb.setAttribute('data-page', page.pageNumber);
