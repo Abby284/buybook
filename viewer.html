@@ -56,6 +56,7 @@
       margin-bottom: 8px;
       cursor: pointer;
       border-radius: 4px;
+      user-select: none;
     }
     .thumb.selected {
       box-shadow: 0 0 10px var(--red-dark);
@@ -136,8 +137,11 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.7.107/pdf.min.js"></script>
   <script>
-    const url = 'DESTINY.pdf';
-    let pdfDoc = null, pageNum = 1, pageIsRendering = false, pageNumIsPending = null;
+    const url = 'YOUR_PDF_FILE.pdf';
+    let pdfDoc = null,
+        pageNum = parseInt(localStorage.getItem('pdf-last-page')) || 1,
+        pageIsRendering = false,
+        pageNumIsPending = null;
     let scale = 1.5, minScale = 0.5, maxScale = 3.0, scaleStep = 0.25;
 
     const canvas = document.getElementById('pdf-render');
@@ -151,46 +155,80 @@
         const viewport = page.getViewport({ scale });
         canvas.width = viewport.width;
         canvas.height = viewport.height;
+
         page.render({ canvasContext: ctx, viewport }).promise.then(() => {
           pageIsRendering = false;
-          if (pageNumIsPending !== null) { renderPage(pageNumIsPending); pageNumIsPending = null; }
+          if (pageNumIsPending !== null) {
+            renderPage(pageNumIsPending);
+            pageNumIsPending = null;
+          }
         });
+
         document.getElementById('page-info').textContent = `Page ${num} of ${pdfDoc.numPages}`;
         document.getElementById('prev-page').disabled = num <= 1;
         document.getElementById('next-page').disabled = num >= pdfDoc.numPages;
         document.getElementById('zoom-out').disabled = scale <= minScale;
         document.getElementById('zoom-in').disabled = scale >= maxScale;
+
         // Highlight thumbnail
         document.querySelectorAll('.thumb').forEach(t => t.classList.remove('selected'));
         const sel = document.querySelector(`.thumb[data-page='${num}']`);
         if (sel) sel.classList.add('selected');
+
+        // Save current page to localStorage
+        localStorage.setItem('pdf-last-page', num);
       });
     };
+
     const queueRender = num => pageIsRendering ? pageNumIsPending = num : renderPage(num);
 
-    // Navigation
-    document.getElementById('prev-page').onclick = () => { if (pageNum>1) { pageNum--; queueRender(pageNum); }};
-    document.getElementById('next-page').onclick = () => { if (pageNum<pdfDoc.numPages) { pageNum++; queueRender(pageNum); }};
-    document.getElementById('zoom-in').onclick = () => { if (scale<maxScale) { scale = Math.min(scale+scaleStep, maxScale); queueRender(pageNum); }};
-    document.getElementById('zoom-out').onclick = () => { if (scale>minScale) { scale = Math.max(scale-scaleStep, minScale); queueRender(pageNum); }};
-
-    // Fullscreen
-    document.getElementById('fullscreen-toggle').onclick = () => {
-      const elem = document.documentElement;
-      if (!document.fullscreenElement) elem.requestFullscreen(); else document.exitFullscreen();
+    // Navigation buttons
+    document.getElementById('prev-page').onclick = () => {
+      if (pageNum > 1) {
+        pageNum--;
+        queueRender(pageNum);
+      }
+    };
+    document.getElementById('next-page').onclick = () => {
+      if (pageNum < pdfDoc.numPages) {
+        pageNum++;
+        queueRender(pageNum);
+      }
+    };
+    document.getElementById('zoom-in').onclick = () => {
+      if (scale < maxScale) {
+        scale = Math.min(scale + scaleStep, maxScale);
+        queueRender(pageNum);
+      }
+    };
+    document.getElementById('zoom-out').onclick = () => {
+      if (scale > minScale) {
+        scale = Math.max(scale - scaleStep, minScale);
+        queueRender(pageNum);
+      }
     };
 
-    // Keyboard controls
+    // Fullscreen toggle
+    document.getElementById('fullscreen-toggle').onclick = () => {
+      const elem = document.documentElement;
+      if (!document.fullscreenElement) {
+        elem.requestFullscreen();
+      } else {
+        document.exitFullscreen();
+      }
+    };
+
+    // Keyboard shortcuts
     document.addEventListener('keydown', e => {
-      if (e.key==='ArrowLeft') document.getElementById('prev-page').click();
-      if (e.key==='ArrowRight') document.getElementById('next-page').click();
-      if (['+','=','Add'].includes(e.key)) document.getElementById('zoom-in').click();
-      if (['-','Subtract'].includes(e.key)) document.getElementById('zoom-out').click();
+      if (e.key === 'ArrowLeft') document.getElementById('prev-page').click();
+      if (e.key === 'ArrowRight') document.getElementById('next-page').click();
+      if (['+', '=', 'Add'].includes(e.key)) document.getElementById('zoom-in').click();
+      if (['-', 'Subtract'].includes(e.key)) document.getElementById('zoom-out').click();
     });
 
-    // Thumbnail generation
+    // Generate thumbnails
     function generateThumbnails() {
-      for (let i=1; i<=pdfDoc.numPages; i++) {
+      for (let i = 1; i <= pdfDoc.numPages; i++) {
         pdfDoc.getPage(i).then(page => {
           const viewport = page.getViewport({ scale: 0.3 });
           const canvasThumb = document.createElement('canvas');
@@ -199,14 +237,23 @@
           page.render({ canvasContext: canvasThumb.getContext('2d'), viewport });
           canvasThumb.className = 'thumb';
           canvasThumb.setAttribute('data-page', i);
-          canvasThumb.onclick = () => { pageNum = i; queueRender(i); };
+          canvasThumb.onclick = () => {
+            pageNum = i;
+            queueRender(i);
+          };
           thumbContainer.append(canvasThumb);
         });
       }
     }
 
-    // Load PDF
-    pdfjsLib.getDocument(url).promise.then(doc => { pdfDoc = doc; generateThumbnails(); renderPage(pageNum); });
+    // Load PDF document
+    pdfjsLib.getDocument(url).promise.then(doc => {
+      pdfDoc = doc;
+      generateThumbnails();
+      // Ensure starting page is valid (in case PDF changed)
+      if (pageNum < 1 || pageNum > pdfDoc.numPages) pageNum = 1;
+      renderPage(pageNum);
+    });
   </script>
 </body>
 </html>
