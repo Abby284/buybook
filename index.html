@@ -6,20 +6,24 @@
   <title>Destiny by Abhishek Prakash</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Roboto&display=swap" rel="stylesheet">
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8263849826698693"
-     crossorigin="anonymous"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8263849826698693" crossorigin="anonymous"></script>
   <style>
     body {
       margin: 0;
       background: linear-gradient(to bottom right, #0f0f0f, #1a1a1a);
       color: #ffffff;
       font-family: 'Roboto', sans-serif;
-      padding: 40px 20px;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .ad-header {
+      width: 100%;
+      padding: 20px 0;
+      background-color: #1a1a1a;
       display: flex;
       justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      flex-direction: column;
     }
     .container {
       display: grid;
@@ -30,6 +34,7 @@
       background: rgba(245, 255, 255, 0.05);
       border-radius: 20px;
       padding: 40px;
+      margin-top: 30px;
       box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
     }
     .book-info {
@@ -45,10 +50,6 @@
       font-size: 1.7rem;
       color: #ff6666;
       font-weight: normal;
-    }
-    .ad-container {
-      margin: 25px 0;
-      text-align: center;
     }
     .tagline {
       font-style: italic;
@@ -116,24 +117,25 @@
   </style>
 </head>
 <body>
+
+  <!-- AdSense Header Ad -->
+  <div class="ad-header">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-8263849826698693"
+         data-ad-slot="6732530891"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+  </div>
+
+  <!-- Main Content -->
   <div class="container">
     <div class="book-info">
       <h1>Destiny</h1>
       <h2>by Abhishek Prakash</h2>
-
-      <!-- Google AdSense Ad -->
-      <div class="ad-container">
-        <ins class="adsbygoogle"
-             style="display:block; text-align:center;"
-             data-ad-client="ca-pub-8263849826698693"
-             data-ad-slot="1234567890" <!-- Replace with your real slot ID -->
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-        <script>
-          (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
-      </div>
-
       <p class="tagline">"We meet for a reason."</p>
       <p>
         <strong>Destiny</strong> is a raw and emotionally gripping romcom novel (with a touch of the cinematic, for fans of Jab We Met and the Before trilogy). It tells the story of two strangers who meet on a random night in Delhi. Both Arjun and Neha are broken souls, unaware that their unexpected, unplanned (and somewhat kidnapped) journey together will ultimately make them whole.
@@ -163,8 +165,8 @@
 
     function payWithRazorpay() {
       var options = {
-        "key": "rzp_live_ZXLRsj2Te3mLr4", // Replace with your Razorpay API Key
-        "amount": 11500, // in paise = ₹115
+        "key": "rzp_live_ZXLRsj2Te3mLr4", // Razorpay API Key
+        "amount": 11500,
         "currency": "INR",
         "name": "Abhishek Prakash",
         "description": "Destiny - eBook Purchase",
@@ -195,5 +197,6 @@
       <a href="support.html" target="_blank">Support</a>
     </div>
   </footer>
+
 </body>
 </html>
