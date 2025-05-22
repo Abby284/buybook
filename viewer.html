@@ -1,138 +1,268 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>PDF VIEWER</title>
+  <title>Destiny by Abhishek Prakash - pdfviewer</title>
   <style>
-    /* Root & body */
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
     :root {
-      --bg-dark: #121212;
-      --bg-panel: #1a1a1a;
-      --red-dark: #8b0000;
-      --red-hover: #b22222;
-      --red-disabled: #330000;
+      --bg-dark: #121217;
+      --bg-glass: rgba(255 255 255 / 0.07);
+      --glass-blur: 15px;
+      --red-glow: #ff1e1e;
+      --red-dark: #9b1212;
+      --red-hover: #ff3b3b;
+      --white-glow: rgba(255 255 255 / 0.3);
+      --shadow-dark: rgba(0,0,0,0.8);
+      --font-family: 'Poppins', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      user-select: none;
     }
     body {
       margin: 0;
-      background-color: var(--bg-dark);
-      color: #fff;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #0f0f15 0%, #1a1a25 100%);
+      color: #eee;
+      font-family: var(--font-family);
+      height: 100vh;
       display: flex;
       flex-direction: column;
-      height: 100vh;
       overflow: hidden;
     }
+
     header {
-      background-color: var(--red-dark);
-      padding: 10px;
+      font-weight: 600;
+      font-size: 1.8rem;
+      letter-spacing: 3px;
+      padding: 15px 0;
       text-align: center;
-      font-size: 1.5rem;
-      font-weight: bold;
-      letter-spacing: 2px;
+      background: var(--bg-glass);
+      backdrop-filter: blur(var(--glass-blur));
+      color: var(--red-glow);
+      text-shadow: 0 0 12px var(--red-glow);
+      border-bottom: 1px solid var(--red-dark);
+      box-shadow: 0 3px 8px var(--red-dark);
       flex-shrink: 0;
-      user-select: none;
     }
 
-    /* Main viewer container */
     #viewer-container {
       flex-grow: 1;
       display: flex;
-      width: 100%;
-      background-color: var(--bg-panel);
       overflow: hidden;
+      background: var(--bg-glass);
+      backdrop-filter: blur(var(--glass-blur));
+      border-radius: 16px;
+      margin: 15px 25px;
+      box-shadow:
+        0 0 15px var(--red-glow),
+        inset 0 0 30px var(--red-glow);
     }
 
-    /* Thumbnail sidebar */
     #thumbnail-container {
-      width: 100px;
-      background-color: var(--bg-panel);
+      width: 110px;
+      background: rgba(255 255 255 / 0.05);
       border-right: 2px solid var(--red-dark);
       overflow-y: auto;
-      padding: 5px;
+      padding: 10px 8px;
+      border-top-left-radius: 16px;
+      border-bottom-left-radius: 16px;
+      scrollbar-width: thin;
+      scrollbar-color: var(--red-glow) transparent;
+      box-shadow: inset 0 0 15px var(--red-glow);
+      user-select: none;
+      transition: background-color 0.3s ease;
+    }
+    #thumbnail-container:hover {
+      background: rgba(255 255 255 / 0.1);
+    }
+    #thumbnail-container::-webkit-scrollbar {
+      width: 6px;
+    }
+    #thumbnail-container::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    #thumbnail-container::-webkit-scrollbar-thumb {
+      background: var(--red-glow);
+      border-radius: 3px;
     }
     .thumb {
-      border: 1px solid var(--red-dark);
-      margin-bottom: 8px;
+      width: 100%;
+      border-radius: 8px;
+      border: 1.5px solid transparent;
+      margin-bottom: 14px;
       cursor: pointer;
-      border-radius: 4px;
-      user-select: none;
+      box-shadow: 0 0 6px rgba(0,0,0,0.4);
+      transition:
+        border-color 0.3s ease,
+        box-shadow 0.3s ease,
+        transform 0.3s ease;
+      filter: drop-shadow(0 0 2px var(--red-dark));
+    }
+    .thumb:hover {
+      border-color: var(--red-glow);
+      box-shadow:
+        0 0 12px var(--red-glow),
+        0 0 25px var(--red-glow);
+      transform: scale(1.05);
+      filter: drop-shadow(0 0 8px var(--red-glow));
+      z-index: 10;
+      position: relative;
     }
     .thumb.selected {
-      box-shadow: 0 0 10px var(--red-dark);
+      border-color: var(--red-glow);
+      box-shadow:
+        0 0 20px var(--red-glow),
+        0 0 40px var(--red-glow);
+      transform: scale(1.1);
+      filter: drop-shadow(0 0 12px var(--red-glow));
+      position: relative;
+      z-index: 11;
     }
 
-    /* PDF canvas area */
     #canvas-container {
       flex-grow: 1;
       display: flex;
       justify-content: center;
       align-items: center;
       overflow: auto;
-      padding: 10px;
+      padding: 20px;
+      scrollbar-width: thin;
+      scrollbar-color: var(--red-glow) transparent;
     }
-    #pdf-render {
-      border: 2px solid var(--red-dark);
-      border-radius: 6px;
-      background: var(--bg-dark);
-      user-select: none;
-      display: block;
-      max-width: 100%;
-      max-height: 100%;
+    #canvas-container::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    #canvas-container::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    #canvas-container::-webkit-scrollbar-thumb {
+      background: var(--red-glow);
+      border-radius: 4px;
     }
 
-    /* Controls */
+    #pdf-render {
+      border-radius: 20px;
+      box-shadow:
+        0 0 25px var(--red-glow),
+        inset 0 0 25px var(--red-glow);
+      background: #1f1f1f;
+      max-width: 100%;
+      max-height: 100%;
+      user-select: none;
+      transition: box-shadow 0.3s ease;
+    }
+    #pdf-render:hover {
+      box-shadow:
+        0 0 40px var(--red-glow),
+        inset 0 0 40px var(--red-glow);
+    }
+
     .controls {
       display: flex;
-      flex-wrap: wrap;
       justify-content: center;
-      gap: 10px;
-      padding: 10px;
-      background: var(--bg-panel);
-      flex-shrink: 0;
+      gap: 20px;
+      padding: 12px 25px;
+      background: var(--bg-glass);
+      backdrop-filter: blur(var(--glass-blur));
+      border-top: 1px solid var(--red-dark);
+      box-shadow:
+        0 -5px 20px rgba(255, 30, 30, 0.15);
       user-select: none;
+      flex-shrink: 0;
     }
     button {
-      background-color: var(--red-dark);
-      border: none;
-      padding: 8px 16px;
-      color: #fff;
-      font-size: 1rem;
+      background: transparent;
+      border: 2px solid var(--red-glow);
+      border-radius: 12px;
+      padding: 10px 16px;
       cursor: pointer;
-      border-radius: 4px;
-      transition: background-color 0.2s ease;
-      min-width: 70px;
-    }
-    button:disabled {
-      background-color: var(--red-disabled);
-      cursor: not-allowed;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      color: var(--red-glow);
+      font-weight: 600;
+      font-size: 1rem;
+      min-width: 48px;
+      user-select: none;
+      box-shadow:
+        0 0 6px var(--red-glow);
     }
     button:hover:not(:disabled) {
-      background-color: var(--red-hover);
+      background: var(--red-glow);
+      color: #121217;
+      box-shadow:
+        0 0 14px var(--red-glow),
+        0 0 30px var(--red-glow);
+    }
+    button:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+      box-shadow: none;
+      color: var(--red-dark);
+      border-color: var(--red-dark);
     }
     #page-info {
       align-self: center;
+      color: #f3f3f3;
+      font-weight: 600;
       font-size: 1rem;
+      user-select: text;
+      padding: 0 10px;
+      min-width: 110px;
+      text-align: center;
+    }
+
+    svg {
+      width: 20px;
+      height: 20px;
+      fill: currentColor;
     }
   </style>
 </head>
 <body>
-  <header>DESTINY BY Abhishek Prakash- "we meet for reason"</header>
+  <header>Destiny by Abhishek Prakash</header>
 
   <div id="viewer-container">
-    <div id="thumbnail-container"></div>
+    <div id="thumbnail-container" aria-label="Page thumbnails"></div>
     <div id="canvas-container">
-      <canvas id="pdf-render"></canvas>
+      <canvas id="pdf-render" aria-label="PDF page render"></canvas>
     </div>
   </div>
 
-  <div class="controls">
-    <button id="prev-page" title="Previous Page">Prev</button>
-    <button id="next-page" title="Next Page">Next</button>
-    <span id="page-info">Page 1 of 1</span>
-    <button id="zoom-out" title="Zoom Out">-</button>
-    <button id="zoom-in" title="Zoom In">+</button>
-    <button id="fullscreen-toggle" title="Toggle Fullscreen">Fullscreen</button>
+  <div class="controls" role="group" aria-label="PDF navigation controls">
+    <button id="prev-page" title="Previous Page" aria-label="Previous Page" >
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+      </svg>
+    </button>
+    <button id="next-page" title="Next Page" aria-label="Next Page">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M8.59 16.59 13.17 12 8.59 7.41 10 6l6 6-6 6z"/>
+      </svg>
+    </button>
+    <span id="page-info" aria-live="polite" aria-atomic="true">Page 1 of 1</span>
+    <button id="zoom-out" title="Zoom Out" aria-label="Zoom Out">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M19 13H5v-2h14v2z"/>
+      </svg>
+    </button>
+    <button id="zoom-in" title="Zoom In" aria-label="Zoom In">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+      </svg>
+    </button>
+    <button id="fullscreen-toggle" title="Toggle Fullscreen" aria-label="Toggle Fullscreen">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M7 14H5v5h5v-2H7v-3zm10-9h-3v2h3v3h2V5h-2zm0 14v-3h2v5h-5v-2h3zm-10-9h3V7H7v3z"/>
+      </svg>
+    </button>
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.7.107/pdf.min.js"></script>
@@ -142,117 +272,192 @@
         pageNum = parseInt(localStorage.getItem('pdf-last-page')) || 1,
         pageIsRendering = false,
         pageNumIsPending = null;
-    let scale = 1.5, minScale = 0.5, maxScale = 3.0, scaleStep = 0.25;
-
+    let scale = 1.5;
     const canvas = document.getElementById('pdf-render');
     const ctx = canvas.getContext('2d');
-    const thumbContainer = document.getElementById('thumbnail-container');
+
+    const thumbnailContainer = document.getElementById('thumbnail-container');
+    const pageInfo = document.getElementById('page-info');
+    const prevPageBtn = document.getElementById('prev-page');
+    const nextPageBtn = document.getElementById('next-page');
+    const zoomInBtn = document.getElementById('zoom-in');
+    const zoomOutBtn = document.getElementById('zoom-out');
+    const fullscreenBtn = document.getElementById('fullscreen-toggle');
+
+    // Disable worker warnings
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.7.107/pdf.worker.min.js';
 
     // Render page
-    const renderPage = num => {
+    function renderPage(num) {
       pageIsRendering = true;
+
+      // Get page
       pdfDoc.getPage(num).then(page => {
         const viewport = page.getViewport({ scale });
-        canvas.width = viewport.width;
         canvas.height = viewport.height;
+        canvas.width = viewport.width;
 
-        page.render({ canvasContext: ctx, viewport }).promise.then(() => {
+        // Render PDF page into canvas context
+        const renderCtx = {
+          canvasContext: ctx,
+          viewport: viewport
+        };
+
+        const renderTask = page.render(renderCtx);
+
+        renderTask.promise.then(() => {
           pageIsRendering = false;
+
           if (pageNumIsPending !== null) {
             renderPage(pageNumIsPending);
             pageNumIsPending = null;
           }
         });
 
-        document.getElementById('page-info').textContent = `Page ${num} of ${pdfDoc.numPages}`;
-        document.getElementById('prev-page').disabled = num <= 1;
-        document.getElementById('next-page').disabled = num >= pdfDoc.numPages;
-        document.getElementById('zoom-out').disabled = scale <= minScale;
-        document.getElementById('zoom-in').disabled = scale >= maxScale;
+        // Update page info text
+        pageInfo.textContent = `Page ${num} of ${pdfDoc.numPages}`;
 
         // Highlight thumbnail
-        document.querySelectorAll('.thumb').forEach(t => t.classList.remove('selected'));
-        const sel = document.querySelector(`.thumb[data-page='${num}']`);
-        if (sel) sel.classList.add('selected');
+        highlightThumbnail(num);
 
-        // Save current page to localStorage
+        // Save last page in localStorage
         localStorage.setItem('pdf-last-page', num);
       });
-    };
+    }
 
-    const queueRender = num => pageIsRendering ? pageNumIsPending = num : renderPage(num);
+    function queueRenderPage(num) {
+      if (pageIsRendering) {
+        pageNumIsPending = num;
+      } else {
+        renderPage(num);
+      }
+    }
 
-    // Navigation buttons
-    document.getElementById('prev-page').onclick = () => {
-      if (pageNum > 1) {
-        pageNum--;
-        queueRender(pageNum);
-      }
-    };
-    document.getElementById('next-page').onclick = () => {
-      if (pageNum < pdfDoc.numPages) {
-        pageNum++;
-        queueRender(pageNum);
-      }
-    };
-    document.getElementById('zoom-in').onclick = () => {
-      if (scale < maxScale) {
-        scale = Math.min(scale + scaleStep, maxScale);
-        queueRender(pageNum);
-      }
-    };
-    document.getElementById('zoom-out').onclick = () => {
-      if (scale > minScale) {
-        scale = Math.max(scale - scaleStep, minScale);
-        queueRender(pageNum);
-      }
-    };
+    // Show Prev Page
+    function showPrevPage() {
+      if (pageNum <= 1) return;
+      pageNum--;
+      queueRenderPage(pageNum);
+    }
+
+    // Show Next Page
+    function showNextPage() {
+      if (pageNum >= pdfDoc.numPages) return;
+      pageNum++;
+      queueRenderPage(pageNum);
+    }
+
+    // Zoom In
+    function zoomIn() {
+      if (scale >= 3) return; // max zoom
+      scale += 0.25;
+      queueRenderPage(pageNum);
+    }
+
+    // Zoom Out
+    function zoomOut() {
+      if (scale <= 0.75) return; // min zoom
+      scale -= 0.25;
+      queueRenderPage(pageNum);
+    }
 
     // Fullscreen toggle
-    document.getElementById('fullscreen-toggle').onclick = () => {
-      const elem = document.documentElement;
+    function toggleFullscreen() {
       if (!document.fullscreenElement) {
-        elem.requestFullscreen();
+        document.documentElement.requestFullscreen();
       } else {
-        document.exitFullscreen();
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        }
       }
-    };
+    }
 
-    // Keyboard shortcuts
-    document.addEventListener('keydown', e => {
-      if (e.key === 'ArrowLeft') document.getElementById('prev-page').click();
-      if (e.key === 'ArrowRight') document.getElementById('next-page').click();
-      if (['+', '=', 'Add'].includes(e.key)) document.getElementById('zoom-in').click();
-      if (['-', 'Subtract'].includes(e.key)) document.getElementById('zoom-out').click();
-    });
+    // Highlight the selected thumbnail
+    function highlightThumbnail(pageNumber) {
+      const thumbs = document.querySelectorAll('.thumb');
+      thumbs.forEach(t => t.classList.remove('selected'));
+      const selectedThumb = document.querySelector(`.thumb[data-page="${pageNumber}"]`);
+      if (selectedThumb) selectedThumb.classList.add('selected');
+    }
 
-    // Generate thumbnails
+    // Generate thumbnails for all pages
     function generateThumbnails() {
-      for (let i = 1; i <= pdfDoc.numPages; i++) {
+      for(let i = 1; i <= pdfDoc.numPages; i++) {
         pdfDoc.getPage(i).then(page => {
-          const viewport = page.getViewport({ scale: 0.3 });
+          const viewport = page.getViewport({ scale: 0.2 });
           const canvasThumb = document.createElement('canvas');
+          canvasThumb.classList.add('thumb');
+          canvasThumb.setAttribute('data-page', page.pageNumber);
           canvasThumb.width = viewport.width;
           canvasThumb.height = viewport.height;
-          page.render({ canvasContext: canvasThumb.getContext('2d'), viewport });
-          canvasThumb.className = 'thumb';
-          canvasThumb.setAttribute('data-page', i);
-          canvasThumb.onclick = () => {
-            pageNum = i;
-            queueRender(i);
+          const ctxThumb = canvasThumb.getContext('2d');
+          const renderCtx = {
+            canvasContext: ctxThumb,
+            viewport: viewport
           };
-          thumbContainer.append(canvasThumb);
+          page.render(renderCtx).promise.then(() => {
+            thumbnailContainer.appendChild(canvasThumb);
+            // Add click event to thumbnail
+            canvasThumb.addEventListener('click', () => {
+              pageNum = page.pageNumber;
+              queueRenderPage(pageNum);
+            });
+          });
         });
       }
     }
 
     // Load PDF document
-    pdfjsLib.getDocument(url).promise.then(doc => {
-      pdfDoc = doc;
+    pdfjsLib.getDocument(url).promise.then(pdfDoc_ => {
+      pdfDoc = pdfDoc_;
+
+      // If last page saved is greater than numPages, reset to 1
+      if (pageNum > pdfDoc.numPages) {
+        pageNum = 1;
+      }
+
       generateThumbnails();
-      // Ensure starting page is valid (in case PDF changed)
-      if (pageNum < 1 || pageNum > pdfDoc.numPages) pageNum = 1;
       renderPage(pageNum);
+    }).catch(err => {
+      // Display error
+      const div = document.createElement('div');
+      div.style.color = 'red';
+      div.style.textAlign = 'center';
+      div.style.padding = '20px';
+      div.textContent = 'Error loading PDF: ' + err.message;
+      document.body.innerHTML = '';
+      document.body.appendChild(div);
+      console.error(err);
+    });
+
+    // Button event listeners
+    prevPageBtn.addEventListener('click', showPrevPage);
+    nextPageBtn.addEventListener('click', showNextPage);
+    zoomInBtn.addEventListener('click', zoomIn);
+    zoomOutBtn.addEventListener('click', zoomOut);
+    fullscreenBtn.addEventListener('click', toggleFullscreen);
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      switch (e.key) {
+        case 'ArrowLeft':
+          showPrevPage();
+          break;
+        case 'ArrowRight':
+          showNextPage();
+          break;
+        case '+':
+        case '=':
+          zoomIn();
+          break;
+        case '-':
+          zoomOut();
+          break;
+        case 'f':
+        case 'F':
+          toggleFullscreen();
+          break;
+      }
     });
   </script>
 </body>
