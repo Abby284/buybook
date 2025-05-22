@@ -1,307 +1,165 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Destiny by Abhishek Prakash - pdfviewer</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Destiny by Abhishek Prakash</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap" rel="stylesheet">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap');
-
-    body {
+    * {
       margin: 0;
-      background: #181616;
-      color: #eb4a4a;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background: #0f0f0f;
       font-family: 'Montserrat', sans-serif;
+      color: #fff;
+      height: 100vh;
       display: flex;
       flex-direction: column;
-      height: 100vh;
       overflow: hidden;
-      user-select: none;
+      animation: fadeIn 1s ease-in;
     }
-
     header {
       text-align: center;
-      padding: 18px 0;
-      font-size: 2.4rem;
-      font-weight: 900;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: #ff1e1e;
-      text-shadow:
-        0 0 6px #eb3d3d,
-        0 0 6px #e82e2e;
-      background: linear-gradient(60deg, #0d0000 10%, #d3d1d1 50%);
-      box-shadow:
-        0 4px 12px #cc181899;
-      user-select: none;
+      padding: 20px;
+      font-size: 2rem;
+      font-weight: bold;
+      background: #1a1a1a;
+      color: #ff4747;
+      box-shadow: 0 2px 10px rgba(255, 71, 71, 0.3);
+      letter-spacing: 1px;
     }
-
-    /* Ad banner below header */
-    #ad-banner {
-      background: linear-gradient(90deg, #330000 0%, #660000 100%);
-      color: #060505;
-      text-align: center;
-      padding: 12px 20px;
-      font-weight: 700;
-      font-size: 1.1rem;
-      border-radius: 10px;
-      margin: 10px 25px 0 25px;
-      box-shadow:
-        0 0 10px #0a0505,
-        inset 0 0 15px #f4f2f2;
-      cursor: pointer;
-      user-select: none;
-      transition: background-color 0.3s ease;
-    }
-    #ad-banner:hover {
-      background: linear-gradient(90deg, #a50f0f 0%, #990000 100%);
-      color: #fff;
-      text-shadow: 0 0 8px #140101;
-    }
-
-    /* Main container */
     #viewer-container {
       flex: 1;
       display: flex;
       overflow: hidden;
-      margin: 10px 25px;
-      border-radius: 14px;
-      box-shadow:
-        0 0 20px #ff0000aa,
-        inset 0 0 40px #660000cc;
-      background: #121212;
     }
-
-    /* Thumbnail sidebar */
     #thumbnail-container {
-      width: 120px;
+      width: 100px;
+      background: #1e1e1e;
       overflow-y: auto;
-      background: #1b0000;
-      border-right: 1px solid #440000;
-      padding: 10px 8px;
-      box-shadow: inset -4px 0 8px #880000aa;
-      scrollbar-width: thin;
-      scrollbar-color: #e28e8e #cdadad;
+      padding: 10px;
+      border-right: 1px solid #333;
+      transition: all 0.3s;
     }
-    #thumbnail-container::-webkit-scrollbar {
-      width: 8px;
-    }
-    #thumbnail-container::-webkit-scrollbar-track {
-      background: #820303;
-    }
-    #thumbnail-container::-webkit-scrollbar-thumb {
-      background-color: #db4242;
-      border-radius: 20px;
-      border: 2px solid #440000;
-    }
-
     .thumb {
-      display: block;
       width: 100%;
-      margin-bottom: 14px;
-      border-radius: 8px;
-      box-shadow:
-        0 0 8px #660000aa;
+      margin-bottom: 12px;
+      border-radius: 6px;
       cursor: pointer;
-      border: 2px solid transparent;
-      transition: border-color 0.25s ease;
+      opacity: 0.7;
+      transition: transform 0.2s ease, opacity 0.3s;
+    }
+    .thumb:hover {
+      transform: scale(1.05);
+      opacity: 1;
     }
     .thumb.selected {
-      border-color: #ff3b3b;
-      box-shadow:
-        0 0 15px #ff3b3b,
-        inset 0 0 20px #ff1e1e;
-      filter: drop-shadow(0 0 8px #ff3b3b);
+      border: 2px solid #ff4747;
+      box-shadow: 0 0 10px #ff4747;
+      opacity: 1;
     }
-
-    /* PDF canvas container */
     #pdf-canvas-container {
       flex: 1;
+      background: #121212;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       overflow: auto;
-      padding: 20px 15px;
-      background: linear-gradient(135deg, #1a0000, #330000);
-      border-radius: 14px;
-      position: relative;
-      box-shadow: inset 0 0 30px #ff1e1e99;
+      padding: 20px;
+      animation: fadeIn 1.2s ease-in;
     }
-
-    canvas#pdf-render {
+    canvas {
       max-width: 100%;
-      max-height: 100%;
-      border-radius: 12px;
-      box-shadow:
-        0 0 20px #ff3b3b,
-        inset 0 0 10px #ff0000cc;
-      background: #1b0000;
-      user-select: none;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(255, 71, 71, 0.5);
     }
-
-    /* Controls */
     .controls {
-      margin-top: 10px;
       display: flex;
+      gap: 12px;
+      margin-top: 15px;
       justify-content: center;
-      gap: 18px;
-      user-select: none;
+      flex-wrap: wrap;
     }
     button {
-      background: linear-gradient(45deg, #990000, #cc0000);
+      background: #ff4747;
       border: none;
       color: #fff;
-      padding: 14px 24px;
-      font-weight: 700;
-      font-size: 1.1rem;
-      border-radius: 12px;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-weight: bold;
       cursor: pointer;
-      box-shadow:
-        0 0 12px #ff3b3b,
-        inset 0 0 8px #ff1e1e;
-      transition: background-color 0.25s ease, transform 0.2s ease;
+      transition: background 0.3s ease, transform 0.2s ease;
     }
     button:hover {
-      background: linear-gradient(45deg, #cc0000, #ff4444);
-      box-shadow:
-        0 0 25px #ff3b3b,
-        inset 0 0 15px #ff1e1e;
-      transform: scale(1.1);
+      background: #ff1f1f;
+      transform: scale(1.05);
     }
-    button:active {
-      transform: scale(0.95);
-      box-shadow: 0 0 8px #ff1e1e;
-    }
-
-    /* Page info text */
     #page-info {
-      color: #ff5555;
-      font-weight: 700;
-      font-size: 1.2rem;
-      align-self: center;
-      margin-left: 10px;
-      user-select: none;
-      text-shadow: 0 0 6px #ff3b3b;
+      margin-top: 10px;
+      font-size: 1rem;
+      color: #ffaaaa;
     }
-
-    /* Footer Ad */
-    #ad-footer {
-      background: linear-gradient(90deg, #220000, #440000);
-      color: #ff3b3b;
-      padding: 10px;
-      text-align: center;
-      font-weight: 600;
-      margin: 10px 25px 20px 25px;
-      border-radius: 8px;
-      box-shadow: 0 0 12px #ff1e1e;
-      user-select: none;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
+    @keyframes fadeIn {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
     }
-    #ad-footer:hover {
-      background: #660000;
-      color: white;
-      text-shadow: 0 0 10px #ff1e1e;
-    }
-
-    /* Scrollbar styling for PDF canvas container */
-    #pdf-canvas-container::-webkit-scrollbar {
-      width: 14px;
-    }
-    #pdf-canvas-container::-webkit-scrollbar-track {
-      background: #330000;
-      border-radius: 10px;
-    }
-    #pdf-canvas-container::-webkit-scrollbar-thumb {
-      background: #ff3b3b;
-      border-radius: 10px;
-      border: 3px solid #330000;
-    }
-
-    /* Responsive tweaks */
     @media (max-width: 768px) {
       #viewer-container {
         flex-direction: column;
-        margin: 10px 15px;
       }
       #thumbnail-container {
         width: 100%;
-        height: 100px;
+        height: 80px;
         overflow-x: auto;
-        overflow-y: hidden;
         white-space: nowrap;
-        border-right: none;
-        border-bottom: 1px solid #440000;
-        box-shadow: inset 0 -4px 8px #880000aa;
+        display: flex;
+        gap: 10px;
       }
       .thumb {
-        display: inline-block;
-        width: auto !important;
-        height: 80px;
-        margin-right: 14px;
-        border-radius: 10px;
-      }
-      #pdf-canvas-container {
-        flex: 1;
-        padding: 10px;
-        border-radius: 12px;
+        width: auto;
+        height: 60px;
       }
     }
   </style>
 </head>
 <body>
   <header>Destiny by Abhishek Prakash</header>
-
-  <!-- Ad banner container -->
-  <div id="ad-banner" aria-label="Advertisement">
-    <a href="https://example.com" target="_blank" rel="noopener" style="color:#ff3b3b; text-decoration:none; font-weight:bold;">
-      Your Ad Here - Click Me!
-    </a>
-  </div>
-
   <div id="viewer-container">
-    <aside id="thumbnail-container" aria-label="Page thumbnails"></aside>
-
-    <section id="pdf-canvas-container" aria-label="PDF document viewer">
-      <canvas id="pdf-render" aria-live="polite" aria-atomic="true"></canvas>
-      <div class="controls" role="group" aria-label="PDF navigation controls">
-        <button id="prev-page" aria-label="Previous page">&lt; Prev</button>
-        <span id="page-info" aria-live="polite" aria-atomic="true">Page 1</span>
-        <button id="next-page" aria-label="Next page">Next &gt;</button>
-        <button id="zoom-in" aria-label="Zoom in">+</button>
-        <button id="zoom-out" aria-label="Zoom out">-</button>
-        <button id="fullscreen-toggle" aria-label="Toggle fullscreen">⛶</button>
+    <aside id="thumbnail-container"></aside>
+    <section id="pdf-canvas-container">
+      <canvas id="pdf-render"></canvas>
+      <div class="controls">
+        <button id="prev-page">⬅</button>
+        <button id="next-page">➡</button>
+        <button id="zoom-in">🔍+</button>
+        <button id="zoom-out">🔍-</button>
+        <button id="fullscreen-toggle">⛶</button>
       </div>
+      <div id="page-info">Page 1</div>
     </section>
   </div>
-
-  <!-- Footer Ad -->
-  <div id="ad-footer" aria-label="Advertisement Footer">
-    <a href="https://example.com" target="_blank" rel="noopener" style="color:#ff3b3b; font-weight:bold; text-decoration:none;">
-      Another Ad Space
-    </a>
-  </div>
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.7.107/pdf.min.js"></script>
   <script>
     const url = 'DESTINY.pdf';
     let pdfDoc = null,
-      pageNum = parseInt(localStorage.getItem('pdf-last-page')) || 1,
-      pageIsRendering = false,
-      pageNumIsPending = null,
-      scale = 1.75;
+        pageNum = parseInt(localStorage.getItem('pdf-last-page')) || 1,
+        pageIsRendering = false,
+        pageNumIsPending = null,
+        scale = 1.5;
 
     const canvas = document.getElementById('pdf-render');
     const ctx = canvas.getContext('2d');
-
-    const thumbnailContainer = document.getElementById('thumbnail-container');
     const pageInfo = document.getElementById('page-info');
     const prevPageBtn = document.getElementById('prev-page');
     const nextPageBtn = document.getElementById('next-page');
     const zoomInBtn = document.getElementById('zoom-in');
     const zoomOutBtn = document.getElementById('zoom-out');
     const fullscreenBtn = document.getElementById('fullscreen-toggle');
+    const thumbnailContainer = document.getElementById('thumbnail-container');
 
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.7.107/pdf.worker.min.js';
 
@@ -315,14 +173,11 @@
 
         const renderCtx = {
           canvasContext: ctx,
-          viewport: viewport
+          viewport
         };
 
-        const renderTask = page.render(renderCtx);
-
-        renderTask.promise.then(() => {
+        page.render(renderCtx).promise.then(() => {
           pageIsRendering = false;
-
           if (pageNumIsPending !== null) {
             renderPage(pageNumIsPending);
             pageNumIsPending = null;
@@ -330,8 +185,8 @@
         });
 
         pageInfo.textContent = `Page ${num} of ${pdfDoc.numPages}`;
-        highlightThumbnail(num);
         localStorage.setItem('pdf-last-page', num);
+        highlightThumbnail(num);
       });
     }
 
@@ -362,7 +217,7 @@
     }
 
     function zoomOut() {
-      if (scale <= 0.75) return;
+      if (scale <= 0.5) return;
       scale -= 0.25;
       queueRenderPage(pageNum);
     }
@@ -371,38 +226,33 @@
       if (!document.fullscreenElement) {
         document.documentElement.requestFullscreen();
       } else {
-        if (document.exitFullscreen) {
-          document.exitFullscreen();
-        }
+        document.exitFullscreen();
       }
     }
 
     function highlightThumbnail(pageNumber) {
-      const thumbs = document.querySelectorAll('.thumb');
-      thumbs.forEach(t => t.classList.remove('selected'));
-      const selectedThumb = document.querySelector(`.thumb[data-page="${pageNumber}"]`);
-      if (selectedThumb) selectedThumb.classList.add('selected');
+      document.querySelectorAll('.thumb').forEach(t => t.classList.remove('selected'));
+      const thumb = document.querySelector(`.thumb[data-page='${pageNumber}']`);
+      if (thumb) thumb.classList.add('selected');
     }
 
     function generateThumbnails() {
-      for(let i = 1; i <= pdfDoc.numPages; i++) {
+      for (let i = 1; i <= pdfDoc.numPages; i++) {
         pdfDoc.getPage(i).then(page => {
           const viewport = page.getViewport({ scale: 0.3 });
           const canvasThumb = document.createElement('canvas');
           canvasThumb.classList.add('thumb');
-          canvasThumb.setAttribute('data-page', page.pageNumber);
-          canvasThumb.width = viewport.width;
+          canvasThumb.setAttribute('data-page', i);
           canvasThumb.height = viewport.height;
+          canvasThumb.width = viewport.width;
+
           const ctxThumb = canvasThumb.getContext('2d');
-          const renderCtx = {
-            canvasContext: ctxThumb,
-            viewport: viewport
-          };
+          const renderCtx = { canvasContext: ctxThumb, viewport };
           page.render(renderCtx).promise.then(() => {
             thumbnailContainer.appendChild(canvasThumb);
             canvasThumb.addEventListener('click', () => {
-              pageNum = page.pageNumber;
-              queueRenderPage(pageNum);
+              pageNum = i;
+              queueRenderPage(i);
             });
           });
         });
@@ -411,37 +261,24 @@
 
     pdfjsLib.getDocument(url).promise.then(pdfDoc_ => {
       pdfDoc = pdfDoc_;
-      if (pageNum > pdfDoc.numPages) {
-        pageNum = 1;
-      }
+      if (pageNum > pdfDoc.numPages) pageNum = 1;
       generateThumbnails();
       renderPage(pageNum);
-    }).catch(err => {
-      const div = document.createElement('div');
-      div.style.color = 'red';
-      div.style.textAlign = 'center';
-      div.style.padding = '20px';
-      div.textContent = 'Error loading PDF: ' + err.message;
-      document.body.innerHTML = '';
-      document.body.appendChild(div);
-      console.error(err);
     });
 
-    prevPageBtn.addEventListener('click', showPrevPage);
-    nextPageBtn.addEventListener('click', showNextPage);
-    zoomInBtn.addEventListener('click', zoomIn);
-    zoomOutBtn.addEventListener('click', zoomOut);
-    fullscreenBtn.addEventListener('click', toggleFullscreen);
+    prevPageBtn.onclick = showPrevPage;
+    nextPageBtn.onclick = showNextPage;
+    zoomInBtn.onclick = zoomIn;
+    zoomOutBtn.onclick = zoomOut;
+    fullscreenBtn.onclick = toggleFullscreen;
 
-    document.addEventListener('keydown', (e) => {
+    document.addEventListener('keydown', e => {
       switch (e.key) {
         case 'ArrowLeft': showPrevPage(); break;
         case 'ArrowRight': showNextPage(); break;
-        case '+':
-        case '=': zoomIn(); break;
+        case '+': case '=': zoomIn(); break;
         case '-': zoomOut(); break;
-        case 'f':
-        case 'F': toggleFullscreen(); break;
+        case 'f': case 'F': toggleFullscreen(); break;
       }
     });
   </script>
