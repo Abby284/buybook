@@ -3,119 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Destiny by Abhishek Prakash - PDFViewer</title>
-  
+  <title>Destiny by Abhishek Prakash - pdfviewer</title>
   <style>
-    /* ----- CALM DARK THEME (default) ----- */
-    :root {
-      --bg-body: #121212;
-      --text-color: #bb5757;
-      --header-bg: linear-gradient(90deg, #1e1e1e 0%, #2a2a2a 100%);
-      --header-color: #aa6f6f;
-      --header-shadow: 0 0 4px #aa6f6f88;
-      
-      --ad-bg: linear-gradient(90deg, #2a2a2a 0%, #1e1e1e 100%);
-      --ad-color: #bb5757;
-      --ad-hover-bg: linear-gradient(90deg, #393939 0%, #2f2f2f 100%);
-      --ad-hover-color: #d17d7d;
-      --ad-hover-shadow: 0 0 6px #bb5757aa;
-      
-      --viewer-bg: #1b1b1b;
-      --thumbnail-bg: #222222;
-      --thumbnail-border: #333333;
-      --thumbnail-scrollbar-thumb: #bb5757;
-      --thumbnail-scrollbar-track: #222222;
-      --thumb-border-selected: #bb5757;
-      --thumb-shadow: 0 0 6px #bb575744;
-      --thumb-shadow-selected: 0 0 12px #bb5757cc, inset 0 0 12px #aa6f6fcc;
-      
-      --canvas-bg: #222222;
-      --canvas-shadow: 0 0 15px #bb5757aa, inset 0 0 8px #aa6f6f88;
-      --pdf-canvas-container-bg: linear-gradient(135deg, #1f1f1f, #2c2c2c);
-      --pdf-canvas-container-shadow: inset 0 0 15px #33000055;
-      
-      --button-bg: linear-gradient(45deg, #5f2a2a, #7f4040);
-      --button-color: #e6bcbc;
-      --button-hover-bg: linear-gradient(45deg, #7f4040, #9b5050);
-      --button-hover-shadow: 0 0 18px #bb5757cc, inset 0 0 10px #aa6f6fcc;
-      --button-active-shadow: 0 0 6px #aa6f6faa;
-      
-      --page-info-color: #cc7f7f;
-      --page-info-shadow: 0 0 4px #bb5757aa;
-      
-      --footer-ad-bg: linear-gradient(90deg, #292929, #1f1f1f);
-      --footer-ad-color: #bb5757;
-      --footer-ad-hover-bg: #3a3a3a;
-      --footer-ad-hover-color: #e8a5a5;
-      --footer-ad-hover-shadow: 0 0 8px #bb5757cc;
-      
-      --scrollbar-thumb: #bb5757aa;
-      --scrollbar-track: #2a2a2a;
-      
-      --box-shadow-general: 0 0 15px #44000044;
-    }
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap');
 
-    /* ----- BRIGHT RED THEME ----- */
-    body.red-theme {
-      --bg-body: #1a0000;
-      --text-color: #ff0000;
-      --header-bg: linear-gradient(90deg, #640000 0%, #8b0000 100%);
-      --header-color: #ff1a1a;
-      --header-shadow: 0 0 10px #ff0000cc;
-
-      --ad-bg: linear-gradient(90deg, #8b0000 0%, #640000 100%);
-      --ad-color: #ff4d4d;
-      --ad-hover-bg: linear-gradient(90deg, #a20000 0%, #7b0000 100%);
-      --ad-hover-color: #ff9999;
-      --ad-hover-shadow: 0 0 10px #ff4d4dcc;
-
-      --viewer-bg: #3a0000;
-      --thumbnail-bg: #4b0000;
-      --thumbnail-border: #700000;
-      --thumbnail-scrollbar-thumb: #ff0000;
-      --thumbnail-scrollbar-track: #4b0000;
-      --thumb-border-selected: #ff3333;
-      --thumb-shadow: 0 0 12px #ff0000aa;
-      --thumb-shadow-selected: 0 0 20px #ff3333cc, inset 0 0 15px #ff6666cc;
-
-      --canvas-bg: #330000;
-      --canvas-shadow: 0 0 25px #ff0000dd, inset 0 0 10px #ff333399;
-      --pdf-canvas-container-bg: linear-gradient(135deg, #4b0000, #3a0000);
-      --pdf-canvas-container-shadow: inset 0 0 25px #ff000044;
-
-      --button-bg: linear-gradient(45deg, #9b0000, #cc0000);
-      --button-color: #fff0f0;
-      --button-hover-bg: linear-gradient(45deg, #cc0000, #ff3333);
-      --button-hover-shadow: 0 0 25px #ff6666dd, inset 0 0 15px #ff9999cc;
-      --button-active-shadow: 0 0 10px #ff3333ff;
-
-      --page-info-color: #ff6666;
-      --page-info-shadow: 0 0 8px #ff3333dd;
-
-      --footer-ad-bg: linear-gradient(90deg, #700000, #4b0000);
-      --footer-ad-color: #ff6666;
-      --footer-ad-hover-bg: #990000;
-      --footer-ad-hover-color: #ffb3b3;
-      --footer-ad-hover-shadow: 0 0 15px #ff6666dd;
-
-      --scrollbar-thumb: #ff0000cc;
-      --scrollbar-track: #4b0000;
-
-      --box-shadow-general: 0 0 30px #ff0000cc;
-    }
-
-    /* ----- GLOBAL STYLES USING VARIABLES ----- */
     body {
       margin: 0;
-      background: var(--bg-body);
-      color: var(--text-color);
+      background: #0b0b0b;
+      color: #ff3b3b;
       font-family: 'Montserrat', sans-serif;
       display: flex;
       flex-direction: column;
       height: 100vh;
       overflow: hidden;
       user-select: none;
-      transition: background-color 0.6s ease, color 0.6s ease;
     }
 
     header {
@@ -125,67 +26,73 @@
       font-weight: 900;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: var(--header-color);
-      text-shadow: var(--header-shadow);
-      background: var(--header-bg);
-      box-shadow: 0 4px 8px #33000044;
+      color: #ff1e1e;
+      text-shadow:
+        0 0 6px #ff3b3b,
+        0 0 10px #ff1e1e;
+      background: linear-gradient(90deg, #330000 0%, #660000 100%);
+      box-shadow:
+        0 4px 12px #ff1e1e99;
       user-select: none;
-      transition: background 0.6s ease, color 0.6s ease, text-shadow 0.6s ease;
     }
 
+    /* Ad banner below header */
     #ad-banner {
-      background: var(--ad-bg);
-      color: var(--ad-color);
+      background: linear-gradient(90deg, #330000 0%, #660000 100%);
+      color: #ff3b3b;
       text-align: center;
       padding: 12px 20px;
       font-weight: 700;
       font-size: 1.1rem;
       border-radius: 10px;
       margin: 10px 25px 0 25px;
-      box-shadow: inset 0 0 8px var(--ad-color);
+      box-shadow:
+        0 0 10px #ff1e1e,
+        inset 0 0 15px #ff3b3b;
       cursor: pointer;
       user-select: none;
-      transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+      transition: background-color 0.3s ease;
     }
     #ad-banner:hover {
-      background: var(--ad-hover-bg);
-      color: var(--ad-hover-color);
-      text-shadow: var(--ad-hover-shadow);
+      background: linear-gradient(90deg, #660000 0%, #990000 100%);
+      color: #fff;
+      text-shadow: 0 0 8px #ff1e1e;
     }
 
+    /* Main container */
     #viewer-container {
       flex: 1;
       display: flex;
       overflow: hidden;
       margin: 10px 25px;
       border-radius: 14px;
-      box-shadow: var(--box-shadow-general);
-      background: var(--viewer-bg);
-      transition: background-color 0.6s ease, box-shadow 0.6s ease;
+      box-shadow:
+        0 0 20px #ff0000aa,
+        inset 0 0 40px #660000cc;
+      background: #121212;
     }
 
+    /* Thumbnail sidebar */
     #thumbnail-container {
       width: 120px;
       overflow-y: auto;
-      background: var(--thumbnail-bg);
-      border-right: 1px solid var(--thumbnail-border);
+      background: #1b0000;
+      border-right: 1px solid #440000;
       padding: 10px 8px;
-      box-shadow: inset -4px 0 8px #00000044;
+      box-shadow: inset -4px 0 8px #880000aa;
       scrollbar-width: thin;
-      scrollbar-color: var(--thumbnail-scrollbar-thumb) var(--thumbnail-scrollbar-track);
-      transition: background-color 0.6s ease, border-color 0.6s ease;
+      scrollbar-color: #ff3b3b #440000;
     }
     #thumbnail-container::-webkit-scrollbar {
       width: 8px;
     }
     #thumbnail-container::-webkit-scrollbar-track {
-      background: var(--thumbnail-scrollbar-track);
+      background: #440000;
     }
     #thumbnail-container::-webkit-scrollbar-thumb {
-      background-color: var(--thumbnail-scrollbar-thumb);
+      background-color: #ff3b3b;
       border-radius: 20px;
-      border: 2px solid var(--thumbnail-scrollbar-track);
-      transition: background-color 0.3s ease;
+      border: 2px solid #440000;
     }
 
     .thumb {
@@ -193,17 +100,21 @@
       width: 100%;
       margin-bottom: 14px;
       border-radius: 8px;
-      box-shadow: var(--thumb-shadow);
+      box-shadow:
+        0 0 8px #660000aa;
       cursor: pointer;
       border: 2px solid transparent;
-      transition: border-color 0.25s ease, box-shadow 0.25s ease;
+      transition: border-color 0.25s ease;
     }
     .thumb.selected {
-      border-color: var(--thumb-border-selected);
-      box-shadow: var(--thumb-shadow-selected);
-      filter: drop-shadow(0 0 6px var(--thumb-border-selected));
+      border-color: #ff3b3b;
+      box-shadow:
+        0 0 15px #ff3b3b,
+        inset 0 0 20px #ff1e1e;
+      filter: drop-shadow(0 0 8px #ff3b3b);
     }
 
+    /* PDF canvas container */
     #pdf-canvas-container {
       flex: 1;
       display: flex;
@@ -212,23 +123,24 @@
       justify-content: center;
       overflow: auto;
       padding: 20px 15px;
-      background: var(--pdf-canvas-container-bg);
+      background: linear-gradient(135deg, #1a0000, #330000);
       border-radius: 14px;
       position: relative;
-      box-shadow: var(--pdf-canvas-container-shadow);
-      transition: background 0.6s ease, box-shadow 0.6s ease;
+      box-shadow: inset 0 0 30px #ff1e1e99;
     }
 
     canvas#pdf-render {
       max-width: 100%;
       max-height: 100%;
       border-radius: 12px;
-      box-shadow: var(--canvas-shadow);
-      background: var(--canvas-bg);
+      box-shadow:
+        0 0 20px #ff3b3b,
+        inset 0 0 10px #ff0000cc;
+      background: #1b0000;
       user-select: none;
-      transition: box-shadow 0.6s ease, background-color 0.6s ease;
     }
 
+    /* Controls */
     .controls {
       margin-top: 10px;
       display: flex;
@@ -237,71 +149,77 @@
       user-select: none;
     }
     button {
-      background: var(--button-bg);
+      background: linear-gradient(45deg, #990000, #cc0000);
       border: none;
-      color: var(--button-color);
+      color: #fff;
       padding: 14px 24px;
       font-weight: 700;
       font-size: 1.1rem;
       border-radius: 12px;
       cursor: pointer;
-      box-shadow: 0 0 8px #bb575777, inset 0 0 6px #aa6f6f99;
-      transition: background-color 0.25s ease, transform 0.2s ease, box-shadow 0.3s ease;
+      box-shadow:
+        0 0 12px #ff3b3b,
+        inset 0 0 8px #ff1e1e;
+      transition: background-color 0.25s ease, transform 0.2s ease;
     }
     button:hover {
-      background: var(--button-hover-bg);
-      box-shadow: var(--button-hover-shadow);
-      transform: scale(1.05);
+      background: linear-gradient(45deg, #cc0000, #ff4444);
+      box-shadow:
+        0 0 25px #ff3b3b,
+        inset 0 0 15px #ff1e1e;
+      transform: scale(1.1);
     }
     button:active {
       transform: scale(0.95);
-      box-shadow: var(--button-active-shadow);
+      box-shadow: 0 0 8px #ff1e1e;
     }
 
+    /* Page info text */
     #page-info {
-      color: var(--page-info-color);
+      color: #ff5555;
       font-weight: 700;
       font-size: 1.2rem;
       align-self: center;
       margin-left: 10px;
       user-select: none;
-      text-shadow: var(--page-info-shadow);
-      transition: color 0.6s ease, text-shadow 0.6s ease;
+      text-shadow: 0 0 6px #ff3b3b;
     }
 
+    /* Footer Ad */
     #ad-footer {
-      background: var(--footer-ad-bg);
-      color: var(--footer-ad-color);
+      background: linear-gradient(90deg, #220000, #440000);
+      color: #ff3b3b;
       padding: 10px;
       text-align: center;
       font-weight: 600;
       margin: 10px 25px 20px 25px;
       border-radius: 8px;
-      box-shadow: 0 0 8px #aa6f6f88;
+      box-shadow: 0 0 12px #ff1e1e;
       user-select: none;
       cursor: pointer;
-      transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+      transition: background-color 0.3s ease;
     }
     #ad-footer:hover {
-      background: var(--footer-ad-hover-bg);
-      color: var(--footer-ad-hover-color);
-      text-shadow: var(--footer-ad-hover-shadow);
+      background: #660000;
+      color: white;
+      text-shadow: 0 0 10px #ff1e1e;
     }
 
+    /* Scrollbar styling for PDF canvas container */
     #pdf-canvas-container::-webkit-scrollbar {
       width: 14px;
     }
     #pdf-canvas-container::-webkit-scrollbar-track {
-      background: var(--scrollbar-track);
+      background: #330000;
       border-radius: 10px;
     }
     #pdf-canvas-container::-webkit-scrollbar-thumb {
-      background: var(--scrollbar-thumb);
+      background: #ff3b3b;
       border-radius: 10px;
-      border: 3px solid var(--scrollbar-track);
+      border: 3px solid #330000;
     }
 
-    /* Responsive */
+    /* Responsive tweaks */
     @media (max-width: 768px) {
       #viewer-container {
         flex-direction: column;
@@ -314,8 +232,8 @@
         overflow-y: hidden;
         white-space: nowrap;
         border-right: none;
-        border-bottom: 1px solid var(--thumbnail-border);
-        box-shadow: inset 0 -4px 8px #00000044;
+        border-bottom: 1px solid #440000;
+        box-shadow: inset 0 -4px 8px #880000aa;
       }
       .thumb {
         display: inline-block;
@@ -330,93 +248,79 @@
         border-radius: 12px;
       }
     }
-
-    /* DARK MODE TOGGLE BUTTON */
-    #darkModeToggle {
-      position: fixed;
-      top: 20px;
-      right: 25px;
-      z-index: 9999;
-      background: var(--button-bg);
-      color: var(--button-color);
-      border: none;
-      padding: 10px 16px;
-      font-weight: 700;
-      font-size: 1rem;
-      border-radius: 12px;
-      cursor: pointer;
-      box-shadow: 0 0 8px #bb575777, inset 0 0 6px #aa6f6f99;
-      transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
-      user-select: none;
-    }
-    #darkModeToggle:hover {
-      background: var(--button-hover-bg);
-      box-shadow: var(--button-hover-shadow);
-    }
   </style>
 </head>
 <body>
   <header>Destiny by Abhishek Prakash</header>
 
-  <div id="ad-banner" onclick="alert('Your Ad Here!')">Ad Banner - Click Me!</div>
-
-  <div id="viewer-container">
-    <div id="thumbnail-container"></div>
-
-    <div id="pdf-canvas-container">
-      <canvas id="pdf-render"></canvas>
-      <div class="controls">
-        <button id="prev-page">Prev Page</button>
-        <span id="page-info">Page 1 / 1</span>
-        <button id="next-page">Next Page</button>
-        <button id="fullscreen-btn">Fullscreen</button>
-      </div>
-    </div>
+  <!-- Ad banner container -->
+  <div id="ad-banner" aria-label="Advertisement">
+    <a href="https://example.com" target="_blank" rel="noopener" style="color:#ff3b3b; text-decoration:none; font-weight:bold;">
+      Your Ad Here - Click Me!
+    </a>
   </div>
 
-  <div id="ad-footer" onclick="alert('Your Footer Ad!')">Footer Ad - Support Us!</div>
+  <div id="viewer-container">
+    <aside id="thumbnail-container" aria-label="Page thumbnails"></aside>
 
-  <button id="darkModeToggle" title="Toggle Dark / Red Theme">Toggle Theme</button>
+    <section id="pdf-canvas-container" aria-label="PDF document viewer">
+      <canvas id="pdf-render" aria-live="polite" aria-atomic="true"></canvas>
+      <div class="controls" role="group" aria-label="PDF navigation controls">
+        <button id="prev-page" aria-label="Previous page">&lt; Prev</button>
+        <span id="page-info" aria-live="polite" aria-atomic="true">Page 1</span>
+        <button id="next-page" aria-label="Next page">Next &gt;</button>
+        <button id="zoom-in" aria-label="Zoom in">+</button>
+        <button id="zoom-out" aria-label="Zoom out">-</button>
+        <button id="fullscreen-toggle" aria-label="Toggle fullscreen">⛶</button>
+      </div>
+    </section>
+  </div>
 
-  <script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>
+  <!-- Footer Ad -->
+  <div id="ad-footer" aria-label="Advertisement Footer">
+    <a href="https://example.com" target="_blank" rel="noopener" style="color:#ff3b3b; font-weight:bold; text-decoration:none;">
+      Another Ad Space
+    </a>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.7.107/pdf.min.js"></script>
   <script>
     const url = 'DESTINY.pdf';
-
-    const pdfjsLib = window['pdfjs-dist/build/pdf'];
-    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://mozilla.github.io/pdf.js/build/pdf.worker.js';
-
     let pdfDoc = null,
-      pageNum = 1,
+      pageNum = parseInt(localStorage.getItem('pdf-last-page')) || 1,
       pageIsRendering = false,
-      pageNumIsPending = null;
+      pageNumIsPending = null,
+      scale = 1.5;
 
-    const scale = 1.3,
-      canvas = document.getElementById('pdf-render'),
-      ctx = canvas.getContext('2d');
+    const canvas = document.getElementById('pdf-render');
+    const ctx = canvas.getContext('2d');
 
     const thumbnailContainer = document.getElementById('thumbnail-container');
     const pageInfo = document.getElementById('page-info');
     const prevPageBtn = document.getElementById('prev-page');
     const nextPageBtn = document.getElementById('next-page');
-    const fullscreenBtn = document.getElementById('fullscreen-btn');
-    const darkModeToggle = document.getElementById('darkModeToggle');
+    const zoomInBtn = document.getElementById('zoom-in');
+    const zoomOutBtn = document.getElementById('zoom-out');
+    const fullscreenBtn = document.getElementById('fullscreen-toggle');
 
-    // Render the page
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.7.107/pdf.worker.min.js';
+
     function renderPage(num) {
       pageIsRendering = true;
 
-      // Get page
       pdfDoc.getPage(num).then(page => {
-        const viewport = page.getViewport({ scale: scale });
+        const viewport = page.getViewport({ scale });
         canvas.height = viewport.height;
         canvas.width = viewport.width;
 
         const renderCtx = {
           canvasContext: ctx,
-          viewport: viewport,
+          viewport: viewport
         };
 
-        page.render(renderCtx).promise.then(() => {
+        const renderTask = page.render(renderCtx);
+
+        renderTask.promise.then(() => {
           pageIsRendering = false;
 
           if (pageNumIsPending !== null) {
@@ -425,13 +329,12 @@
           }
         });
 
-        // Update page info
-        pageInfo.textContent = `Page ${num} / ${pdfDoc.numPages}`;
+        pageInfo.textContent = `Page ${num} of ${pdfDoc.numPages}`;
         highlightThumbnail(num);
+        localStorage.setItem('pdf-last-page', num);
       });
     }
 
-    // Queue page rendering
     function queueRenderPage(num) {
       if (pageIsRendering) {
         pageNumIsPending = num;
@@ -440,40 +343,65 @@
       }
     }
 
-    // Show Prev Page
-    prevPageBtn.addEventListener('click', () => {
+    function showPrevPage() {
       if (pageNum <= 1) return;
       pageNum--;
       queueRenderPage(pageNum);
-    });
+    }
 
-    // Show Next Page
-    nextPageBtn.addEventListener('click', () => {
+    function showNextPage() {
       if (pageNum >= pdfDoc.numPages) return;
       pageNum++;
       queueRenderPage(pageNum);
-    });
+    }
 
-    // Render thumbnails
-    function renderThumbnails() {
-      for (let i = 1; i <= pdfDoc.numPages; i++) {
+    function zoomIn() {
+      if (scale >= 3) return;
+      scale += 0.25;
+      queueRenderPage(pageNum);
+    }
+
+    function zoomOut() {
+      if (scale <= 0.75) return;
+      scale -= 0.25;
+      queueRenderPage(pageNum);
+    }
+
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen();
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        }
+      }
+    }
+
+    function highlightThumbnail(pageNumber) {
+      const thumbs = document.querySelectorAll('.thumb');
+      thumbs.forEach(t => t.classList.remove('selected'));
+      const selectedThumb = document.querySelector(`.thumb[data-page="${pageNumber}"]`);
+      if (selectedThumb) selectedThumb.classList.add('selected');
+    }
+
+    function generateThumbnails() {
+      for(let i = 1; i <= pdfDoc.numPages; i++) {
         pdfDoc.getPage(i).then(page => {
-          const viewport = page.getViewport({ scale: 0.15 });
-          const thumbCanvas = document.createElement('canvas');
-          const thumbCtx = thumbCanvas.getContext('2d');
-
-          thumbCanvas.width = viewport.width;
-          thumbCanvas.height = viewport.height;
-          thumbCanvas.classList.add('thumb');
-          thumbCanvas.title = `Page ${i}`;
-
-          page.render({
-            canvasContext: thumbCtx,
-            viewport: viewport,
-          }).promise.then(() => {
-            thumbnailContainer.appendChild(thumbCanvas);
-            thumbCanvas.addEventListener('click', () => {
-              pageNum = i;
+          const viewport = page.getViewport({ scale: 0.2 });
+          const canvasThumb = document.createElement('canvas');
+          canvasThumb.classList.add('thumb');
+          canvasThumb.setAttribute('data-page', page.pageNumber);
+          canvasThumb.width = viewport.width;
+          canvasThumb.height = viewport.height;
+          const ctxThumb = canvasThumb.getContext('2d');
+          const renderCtx = {
+            canvasContext: ctxThumb,
+            viewport: viewport
+          };
+          page.render(renderCtx).promise.then(() => {
+            thumbnailContainer.appendChild(canvasThumb);
+            canvasThumb.addEventListener('click', () => {
+              pageNum = page.pageNumber;
               queueRenderPage(pageNum);
             });
           });
@@ -481,69 +409,41 @@
       }
     }
 
-    // Highlight selected thumbnail
-    function highlightThumbnail(num) {
-      const thumbs = document.querySelectorAll('.thumb');
-      thumbs.forEach((thumb, idx) => {
-        if (idx === num - 1) {
-          thumb.classList.add('selected');
-        } else {
-          thumb.classList.remove('selected');
-        }
-      });
-    }
-
-    // Fullscreen toggle
-    fullscreenBtn.addEventListener('click', () => {
-      if (!document.fullscreenElement) {
-        document.documentElement.requestFullscreen().catch(console.error);
-      } else {
-        document.exitFullscreen();
-      }
-    });
-
-    // Theme toggle logic
-    function loadTheme() {
-      const saved = localStorage.getItem('theme');
-      if (saved === 'red') {
-        document.body.classList.add('red-theme');
-        darkModeToggle.textContent = 'Switch to Calm Dark';
-      } else {
-        document.body.classList.remove('red-theme');
-        darkModeToggle.textContent = 'Switch to Fiery Red';
-      }
-    }
-
-    darkModeToggle.addEventListener('click', () => {
-      if (document.body.classList.contains('red-theme')) {
-        document.body.classList.remove('red-theme');
-        localStorage.setItem('theme', 'dark');
-        darkModeToggle.textContent = 'Switch to Fiery Red';
-      } else {
-        document.body.classList.add('red-theme');
-        localStorage.setItem('theme', 'red');
-        darkModeToggle.textContent = 'Switch to Calm Dark';
-      }
-    });
-
-    // Load PDF
     pdfjsLib.getDocument(url).promise.then(pdfDoc_ => {
       pdfDoc = pdfDoc_;
-
-      renderThumbnails();
+      if (pageNum > pdfDoc.numPages) {
+        pageNum = 1;
+      }
+      generateThumbnails();
       renderPage(pageNum);
     }).catch(err => {
       const div = document.createElement('div');
+      div.style.color = 'red';
       div.style.textAlign = 'center';
       div.style.padding = '20px';
-      div.style.color = 'red';
-      div.style.fontWeight = 'bold';
-      div.textContent = `Error loading PDF: ${err.message}`;
+      div.textContent = 'Error loading PDF: ' + err.message;
+      document.body.innerHTML = '';
       document.body.appendChild(div);
+      console.error(err);
     });
 
-    // Initialize theme on load
-    loadTheme();
+    prevPageBtn.addEventListener('click', showPrevPage);
+    nextPageBtn.addEventListener('click', showNextPage);
+    zoomInBtn.addEventListener('click', zoomIn);
+    zoomOutBtn.addEventListener('click', zoomOut);
+    fullscreenBtn.addEventListener('click', toggleFullscreen);
+
+    document.addEventListener('keydown', (e) => {
+      switch (e.key) {
+        case 'ArrowLeft': showPrevPage(); break;
+        case 'ArrowRight': showNextPage(); break;
+        case '+':
+        case '=': zoomIn(); break;
+        case '-': zoomOut(); break;
+        case 'f':
+        case 'F': toggleFullscreen(); break;
+      }
+    });
   </script>
 </body>
 </html>
