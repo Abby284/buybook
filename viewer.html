@@ -35,25 +35,6 @@
       margin: 0 0 8px 0;
     }
 
-    #ad-header {
-      background: #2a0000;
-      color: #e55;
-      padding: 6px 0;
-      font-weight: 600;
-      border-radius: 6px;
-      box-shadow: 0 0 10px #550000;
-      cursor: pointer;
-      font-size: 1rem;
-      max-width: 600px;
-      margin: 0 auto 8px auto;
-      transition: background-color 0.3s ease;
-    }
-
-    #ad-header:hover {
-      background: #441010;
-      color: #fff;
-    }
-
     /* Main viewer container */
     #viewer-container {
       flex: 1;
@@ -183,10 +164,9 @@
 <body>
   <header>
     <h1>Destiny by Abhishek Prakash</h1>
-    <div id="ad-header">
-      <a href="https://example.com" target="_blank" rel="noopener" style="color:inherit; text-decoration:none;">
-        Advertisement Placeholder
-      </a>
+    <div style="text-align: center; margin: 10px 0;">
+      <script async="async" data-cfasync="false" src="//pl26716349.profitableratecpm.com/4cbfd7a7c878ae705b613f2f5eb2b16c/invoke.js"></script>
+      <div id="container-4cbfd7a7c878ae705b613f2f5eb2b16c"></div>
     </div>
   </header>
 
@@ -210,10 +190,10 @@
   <script>
     const url = 'DESTINY.pdf';
     let pdfDoc = null,
-      pageNum = parseInt(localStorage.getItem('pdf-last-page')) || 1,
-      pageIsRendering = false,
-      pageNumIsPending = null,
-      scale = 1.5;
+        pageNum = parseInt(localStorage.getItem('pdf-last-page')) || 1,
+        pageIsRendering = false,
+        pageNumIsPending = null,
+        scale = 1.5;
 
     const canvas = document.getElementById('pdf-render');
     const ctx = canvas.getContext('2d');
@@ -224,25 +204,8 @@
     const zoomInBtn = document.getElementById('zoom-in');
     const zoomOutBtn = document.getElementById('zoom-out');
     const fullscreenBtn = document.getElementById('fullscreen-toggle');
-    const adHeader = document.getElementById('ad-header');
 
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.7.107/pdf.worker.min.js';
-
-    function updateAdForPage(num) {
-      if (num % 10 === 0) {
-        adHeader.innerHTML = `
-          <a href="https://special-ad-link.example.com" target="_blank" rel="noopener" style="color:inherit; text-decoration:none;">
-            🔥 Special Offer! Check this exclusive deal on page ${num} 🔥
-          </a>
-        `;
-      } else {
-        adHeader.innerHTML = `
-          <a href="https://example.com" target="_blank" rel="noopener" style="color:inherit; text-decoration:none;">
-            Advertisement Placeholder
-          </a>
-        `;
-      }
-    }
 
     function renderPage(num) {
       pageIsRendering = true;
@@ -266,7 +229,6 @@
 
         pageInfo.textContent = `Page ${num} of ${pdfDoc.numPages}`;
         highlightThumbnail(num);
-        updateAdForPage(num);
         localStorage.setItem('pdf-last-page', num);
       });
     }
