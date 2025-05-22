@@ -158,7 +158,7 @@
 
     <div class="purchase-section">
       <img src="cover.png" alt="Destiny Book Cover" />
-      <button onclick="payWithRazorpay()">BUY NOW</button>
+      <button onclick="payWithRazorpay()">BUY NOW at 115</button>
       <button onclick="window.open('Read.html', '_blank')">READ ONLINE (WITH ADS)</button>
       <button onclick="window.open('sample.pdf', '_blank')">READ SAMPLE</button>
     </div>
@@ -183,10 +183,7 @@
         "description": "Destiny - eBook Purchase",
         "image": "cover.png",
         "handler": function (response) {
-          "handler": function (response) {
-      // Optional: You can validate the payment here with your backend before redirecting
-      window.location.href = "success.html"; // ✅ Redirect to success page
-    },
+          alert("Payment successful! Download will begin now.");
           downloadPDF("DESTINY.pdf");
         },
         "prefill": {
