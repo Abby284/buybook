@@ -225,11 +225,17 @@
 
   <!-- Interstitial Ad Modal -->
   <div id="ad-modal">
-    <div id="ad-box">
-      <iframe src="//pl26716349.highperformancecpmgate.com/4cbfd7a7c878ae705b613f2f5eb2b16c/invoke.js"
-              style="width:100%; height:90px; border:none;"
-              scrolling="no" loading="lazy">
-      </iframe>
+    <div id="ad-box" style="text-align:center;">
+      <script type="text/javascript">
+        atOptions = {
+          'key' : '5329f20218658161d275c1d9d4695d45',
+          'format' : 'iframe',
+          'height' : 60,
+          'width' : 468,
+          'params' : {}
+        };
+      </script>
+      <script type="text/javascript" src="//www.highperformanceformat.com/5329f20218658161d275c1d9d4695d45/invoke.js"></script>
       <div id="skip-btn">⏩ Skip Ad</div>
     </div>
   </div>
@@ -253,17 +259,18 @@
     const zoomOutBtn = document.getElementById('zoom-out');
     const fullscreenBtn = document.getElementById('fullscreen-toggle');
 
+    const adModal = document.getElementById("ad-modal");
+    const skipBtn = document.getElementById("skip-btn");
+
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.7.107/pdf.worker.min.js';
 
     function showAdModal() {
-      const modal = document.getElementById("ad-modal");
-      const skipBtn = document.getElementById("skip-btn");
-      modal.style.display = "flex";
+      adModal.style.display = "flex";
       skipBtn.style.display = "none";
       setTimeout(() => {
         skipBtn.style.display = "inline-block";
         skipBtn.onclick = () => {
-          modal.style.display = "none";
+          adModal.style.display = "none";
         };
       }, 5000);
     }
