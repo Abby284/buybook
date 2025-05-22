@@ -2,17 +2,18 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>DESTINY - PDF Reader</title>
   <style>
     body {
       margin: 0;
       font-family: 'Times New Roman', serif;
       background: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
-      animation: fadeIn 1.2s ease-in-out;
+      animation: fadeIn 1s ease-in-out;
       display: flex;
       flex-direction: column;
       height: 100vh;
+      overflow: hidden;
     }
 
     @keyframes fadeIn {
@@ -21,30 +22,51 @@
     }
 
     #toolbar {
-      background-color: #f4f1e1;
-      border-bottom: 1px solid #ccc;
+      background-color: #f8f4e6;
       padding: 10px 20px;
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      font-size: 16px;
-      z-index: 1000;
-      position: sticky;
+      align-items: center;
+      border-bottom: 1px solid #ccc;
+      position: fixed;
       top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+    }
+
+    .controls button, .fullscreen-btn {
+      background: #e3dcc5;
+      border: 1px solid #aaa;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background-color 0.2s ease;
+    }
+
+    .controls button:hover, .fullscreen-btn:hover {
+      background-color: #f0eada;
+    }
+
+    .fullscreen-btn {
+      font-size: 18px;
+      padding: 5px 10px;
     }
 
     #viewerContainer {
+      margin-top: 60px;
       flex: 1;
       overflow: auto;
-      padding: 40px 0 20px;
-      background: rgba(255,255,255,0.95);
+      padding: 20px 0;
+      background: rgba(255,255,255,0.96);
     }
 
     #pdfViewer .page {
       margin: auto;
-      margin-bottom: 10px;
+      margin-bottom: 20px;
       box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
-      transition: transform 0.4s ease-in-out, opacity 0.6s ease;
+      transition: opacity 0.6s ease, transform 0.3s ease-in-out;
       opacity: 0;
       animation: pageFadeIn 1s forwards;
     }
@@ -53,52 +75,25 @@
       to { opacity: 1; }
     }
 
-    #pdfViewer .page:hover {
-      transform: scale(1.02);
-    }
-
-    .controls {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    button {
-      background-color: #ded8c7;
-      border: 1px solid #aaa;
-      padding: 6px 12px;
-      cursor: pointer;
-      border-radius: 5px;
-      transition: background-color 0.2s ease;
-    }
-
-    button:hover {
-      background-color: #eae4d3;
-    }
-
-    .fullscreen-btn {
-      font-size: 18px;
-      padding: 5px 10px;
-      border-radius: 50%;
-      background: #dcd2bb;
-      border: 1px solid #aaa;
-    }
-
     .ad-banner {
-      height: 90px;
+      height: 80px;
       text-align: center;
-      background-color: #f0eada;
-      color: #555;
+      background-color: #f5f0de;
       font-style: italic;
-      padding: 20px;
+      color: #555;
+      line-height: 80px;
       border-top: 1px solid #ccc;
     }
   </style>
+
+  <!-- PDF.js CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf_viewer.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf_viewer.min.css"/>
 </head>
+
 <body>
+  <!-- Toolbar -->
   <div id="toolbar">
     <div class="controls">
       <button id="prev">Previous</button>
@@ -106,27 +101,33 @@
       <button id="zoomIn">Zoom In</button>
       <button id="zoomOut">Zoom Out</button>
     </div>
-    <button id="fullscreenBtn" class="fullscreen-btn" title="Fullscreen">⛶</button>
+    <button id="fullscreenBtn" class="fullscreen-btn" title="Toggle Fullscreen">⛶</button>
   </div>
+
+  <!-- PDF Viewer Container -->
   <div id="viewerContainer">
     <div id="pdfViewer" class="pdfViewer"></div>
   </div>
-  <div class="ad-banner">Advertisement - Your Ad Here</div>
 
+  <!-- Ad Section -->
+  <div class="ad-banner">📚 Advertisement – Your Book Ad Here!</div>
+
+  <!-- PDF Viewer Script -->
   <script>
     const url = 'DESTINY.pdf';
     const pdfjsLib = window['pdfjs-dist/build/pdf'];
     const eventBus = new pdfjsViewer.EventBus();
     const container = document.getElementById('viewerContainer');
+    const viewer = document.getElementById('pdfViewer');
+
     const pdfViewer = new pdfjsViewer.PDFViewer({
       container,
       eventBus,
-      useOnlyCssZoom: true,
       textLayerMode: 1
     });
 
     let pdfDoc = null;
-    let currentScale = 1.5;
+    let currentScale = 1.25;
 
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
@@ -134,7 +135,8 @@
       pdfjsLib.getDocument(url).promise.then(doc => {
         pdfDoc = doc;
         pdfViewer.setDocument(doc);
-        const lastPage = +localStorage.getItem('lastPage') || 1;
+
+        const lastPage = parseInt(localStorage.getItem('lastPage')) || 1;
         pdfViewer.currentPageNumber = lastPage;
         pdfViewer.currentScale = currentScale;
       });
@@ -162,17 +164,17 @@
       pdfViewer.currentScale = currentScale;
     });
 
-    eventBus.on('pagechanging', (e) => {
-      localStorage.setItem('lastPage', e.pageNumber);
-    });
-
     document.getElementById('fullscreenBtn').addEventListener('click', () => {
-      const docElm = document.documentElement;
+      const docEl = document.documentElement;
       if (!document.fullscreenElement) {
-        docElm.requestFullscreen();
+        docEl.requestFullscreen();
       } else {
         document.exitFullscreen();
       }
+    });
+
+    eventBus.on('pagechanging', (e) => {
+      localStorage.setItem('lastPage', e.pageNumber);
     });
 
     loadPDF();
