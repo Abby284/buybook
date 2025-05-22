@@ -3,9 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Destiny by Abhishek Prakash</title><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8263849826698693"
+  <title>Destiny by Abhishek Prakash</title>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8263849826698693"
      crossorigin="anonymous"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Roboto&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Roboto&display=swap" rel="stylesheet" />
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8263849826698693" crossorigin="anonymous"></script>
   <style>
@@ -18,6 +19,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      min-height: 100vh;
     }
     .ad-header {
       width: 100%;
@@ -31,12 +33,14 @@
       grid-template-columns: 1fr 1fr;
       gap: 60px;
       align-items: center;
-      max-width: 1300px;
+      max-width: 900px; /* reduced from 1300px */
       background: rgba(245, 255, 255, 0.05);
       border-radius: 20px;
       padding: 40px;
       margin-top: 30px;
       box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+      width: 90%;
+      box-sizing: border-box;
     }
     .book-info {
       max-width: 600px;
@@ -92,10 +96,15 @@
       transform: scale(1.05);
     }
     footer {
+      width: 100%;
       text-align: center;
       padding: 20px;
       color: #aaa;
       font-size: 0.9rem;
+      margin-top: 40px;
+      background: transparent;
+      box-shadow: none;
+      flex-shrink: 0;
     }
     .footer-links {
       margin-top: 10px;
@@ -147,12 +156,13 @@
       </p>
     </div>
 
-<div class="purchase-section">
-  <img src="cover.png" alt="Destiny Book Cover" />
-  <button onclick="payWithRazorpay()">BUY NOW at 115</button>
-  <button onclick="window.open('Read.html', '_blank')">READ ONLINE (WITH ADS)</button>
-  <button onclick="window.open('sample.pdf', '_blank')">READ SAMPLE</button>
-</div>
+    <div class="purchase-section">
+      <img src="cover.png" alt="Destiny Book Cover" />
+      <button onclick="payWithRazorpay()">BUY NOW at 115</button>
+      <button onclick="window.open('Read.html', '_blank')">READ ONLINE (WITH ADS)</button>
+      <button onclick="window.open('sample.pdf', '_blank')">READ SAMPLE</button>
+    </div>
+  </div>
 
   <script>
     function downloadPDF(filePath) {
