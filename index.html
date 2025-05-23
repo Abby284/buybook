@@ -4,12 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Destiny by Abhishek Prakash</title>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8263849826698693"
-     crossorigin="anonymous"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8263849826698693" crossorigin="anonymous"></script>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Roboto&display=swap" rel="stylesheet" />
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8263849826698693" crossorigin="anonymous"></script>
   <style>
+    * {
+      box-sizing: border-box;
+    }
     body {
       margin: 0;
       background: linear-gradient(to bottom right, #0f0f0f, #1a1a1a);
@@ -33,7 +34,7 @@
       grid-template-columns: 1fr 1fr;
       gap: 60px;
       align-items: center;
-      max-width: 900px; /* reduced from 1300px */
+      max-width: 900px;
       background: rgba(245, 255, 255, 0.05);
       border-radius: 20px;
       padding: 40px;
@@ -47,24 +48,24 @@
     }
     .book-info h1 {
       font-family: 'Playfair Display', serif;
-      font-size: 4rem;
+      font-size: 3rem;
       color: #ff3333;
       margin-bottom: 10px;
     }
     .book-info h2 {
-      font-size: 1.7rem;
+      font-size: 1.5rem;
       color: #ff6666;
       font-weight: normal;
     }
     .tagline {
       font-style: italic;
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       color: #ffaa88;
       margin: 20px 0;
     }
     .book-info p {
-      font-size: 1.1rem;
-      line-height: 1.8;
+      font-size: 1rem;
+      line-height: 1.6;
       color: #ddd;
     }
     .purchase-section {
@@ -73,7 +74,8 @@
       align-items: center;
     }
     .purchase-section img {
-      max-width: 340px;
+      width: 100%;
+      max-width: 300px;
       border: 3px solid #ff3333;
       border-radius: 15px;
       margin-bottom: 25px;
@@ -82,14 +84,16 @@
     button {
       background: linear-gradient(135deg, #ff0000, #cc0000);
       color: white;
-      font-size: 1.4rem;
-      padding: 14px 35px;
+      font-size: 1.2rem;
+      padding: 12px 28px;
       border: none;
       border-radius: 10px;
       cursor: pointer;
       box-shadow: 0 0 15px rgba(255, 0, 0, 0.6);
       transition: all 0.3s ease;
       margin-bottom: 15px;
+      width: 100%;
+      max-width: 260px;
     }
     button:hover {
       background: #b30000;
@@ -117,18 +121,39 @@
     .footer-links a:hover {
       text-decoration: underline;
     }
+
     @media (max-width: 768px) {
       .container {
         grid-template-columns: 1fr;
+        padding: 20px;
         gap: 30px;
-        text-align: center;
+      }
+
+      .book-info h1 {
+        font-size: 2.2rem;
+      }
+
+      .book-info h2 {
+        font-size: 1.2rem;
+      }
+
+      .book-info p {
+        font-size: 0.95rem;
+      }
+
+      .tagline {
+        font-size: 1rem;
+      }
+
+      button {
+        font-size: 1rem;
+        padding: 10px 22px;
       }
     }
   </style>
 </head>
 <body>
 
-  <!-- AdSense Header Ad -->
   <div class="ad-header">
     <ins class="adsbygoogle"
          style="display:block"
@@ -141,19 +166,13 @@
     </script>
   </div>
 
-  <!-- Main Content -->
   <div class="container">
     <div class="book-info">
       <h1>Destiny</h1>
       <h2>by Abhishek Prakash</h2>
       <p class="tagline">"We meet for a reason."</p>
-      <p>
-        <strong>Destiny</strong> is a raw and emotionally gripping romcom novel (with a touch of the cinematic, for fans of Jab We Met and the Before trilogy). It tells the story of two strangers who meet on a random night in Delhi. Both Arjun and Neha are broken souls, unaware that their unexpected, unplanned (and somewhat kidnapped) journey together will ultimately make them whole.
-        Follow their story—from strangers to best friends, from healers to lovers, only to potentially become strangers again, or perhaps remain together forever, if only in their minds, as they always imagined.
-      </p>
-      <p>
-        With heartfelt storytelling and a dose of chaos, Destiny explores trauma, self-discovery, attachment, and the blurry line between delusion and reality. Not every story ends in love — but some remain unforgettable.
-      </p>
+      <p><strong>Destiny</strong> is a raw and emotionally gripping romcom novel... (your existing text)</p>
+      <p>With heartfelt storytelling... (your existing text)</p>
     </div>
 
     <div class="purchase-section">
@@ -176,7 +195,7 @@
 
     function payWithRazorpay() {
       var options = {
-        "key": "rzp_live_ZXLRsj2Te3mLr4", // Razorpay API Key
+        "key": "rzp_live_ZXLRsj2Te3mLr4",
         "amount": 12000,
         "currency": "INR",
         "name": "Abhishek Prakash",
@@ -186,7 +205,6 @@
           alert("Payment successful! Download will begin now.");
           downloadPDF("DESTINY.pdf");
         },
-  
         "prefill": {
           "name": "",
           "email": "",
